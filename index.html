@@ -21,40 +21,51 @@
     </div>
   </div>
 
+ <div class="row"> <!--Teams-->
+    <div class="span2 text-right">
+        <img src="img/beer-icon.png"></img>
+    </div>
+    <div class="span8">
+        <h3>Teams Playing this Year</h3>
+        <script>
+        for(i=0; i<league.length; i++)
+        document.write(league[i].teamName + " <em>sponsored by</em> " + league[i].sponsor + "<br>");
+        </script>
+    </div>
+  </div>
+
   <div class="row"> <!--Table-->
     <div class="span2 right">
         <img src="img/beer-icon.png"></img>
     </div>
     <div class="span8">
         <h3>Team Standings</h3>
+        
         <table class="table">
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Username</th>
+                  <th>Team Name</th>
+                  <th>Wins</th>
+                  <th>losses</th>
+                  <th>Percent</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                </tr>
+              <tbody>  
+
+        <script>
+        for(i=0; i<league.length; i++)
+        document.write(
+            "<tr>" +
+                "<td>" + (i+1) + "</td>" +
+                "<td>" + league[i].teamName + "</td>" +
+                "<td>" + league[i].wins + "</td>" +
+                "<td>" + league[i].losses + "</td>" +
+                "<td>" + league[i].percent + "</td>" +
+            "</tr>"
+        );
+        </script>
+
               </tbody>
             </table>
 
@@ -85,6 +96,7 @@
     </div>
     <div class="span8">
         <h3>Game Schedules</h3>
+        <p>Coming Soon!</p>
     </div>
   </div>
   
