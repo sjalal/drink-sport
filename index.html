@@ -7,6 +7,10 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/morejs.js"></script>
+
+    <!--Linked Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
+
 </head>
 <body>
 <div class="container">
@@ -22,7 +26,7 @@
   </div>
 
  <div class="row"> <!--Teams-->
-    <div class="span2 text-right">
+    <div class="span2">
         <img src="img/beer-icon.png"></img>
     </div>
     <div class="span8">
@@ -35,7 +39,7 @@
   </div>
 
   <div class="row"> <!--Table-->
-    <div class="span2 right">
+    <div class="span2">
         <img src="img/beer-icon.png"></img>
     </div>
     <div class="span8">
@@ -69,29 +73,72 @@
               </tbody>
             </table>
 
-<!-- Button to trigger modal -->
-      <a href="#addTeamModal" role="button" class="btn manage" data-toggle="modal">Add a team</a>
-       
+      <!-- Modal Button -->
+      <a href="#myModal" role="button" class="btn" data-toggle="modal">Enter Team Info</a>
+
       <!-- Modal -->
-      <div id="addTeamModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-          <h3 id="myModalLabel">Modal header</h3>
+      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header" class="moframe">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        <bold>close</bold>
+        </button>
+        <h3 id="myModalLabel">Bats, Beers & Brats</h3>
+      </div>
+      <div class="modal-body" class="moframe">
+      <form class="form-horizontal">
+        <div class="control-group">
+          <label class="control-label" for="inputTeam">Team name</label>
+          <div class="controls">
+            <input type="text" id="inputTeamName" placeholder="Keep it clean, please!">
+          </div>
         </div>
-        <div class="modal-body">
-          <p>One fine body</p>
+        <div class="control-group">
+          <label class="control-label" for="inputMgr">Manager's name</label>
+          <div class="controls">
+            <input type="text" id="inputMgrFirst" placeholder="First">
+          </div>
+          <br>
+          <div class="controls">
+            <input type="text" id="inputMgrSecond" placeholder="Last">
+          </div>
         </div>
-        <div class="modal-footer">
-          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-          <button class="btn btn-primary">Save changes</button>
+        <div class="control-group">
+          <label class="control-label" for="inputTel">Manager's phone</label>
+          <div class="controls">
+            <input type="tel" id="inputMgrPhone" placeholder="xxx-xxx-xxxx">
+          </div>
         </div>
+        <div class="control-group">
+          <label class="control-label" for="inputEmail">Manager's email</label>
+          <div class="controls">
+            <input type="email" id="inputMgrEmail" placeholder="">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="inputZip">Manager's zipcode</label>
+          <div class="controls">
+            <input type="number" id="inputMgrZip" placeholder="">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="inputSponsor">Team sponsor</label>
+          <div class="controls">
+            <input type="text" id="inputSponsor" placeholder="">
+          </div>
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer" class="moframe">
+      <!-- <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button> -->
+      <button class="btn btn-primary" id="register" data-dismiss="modal" aria-hidden="true">Register Your Team</button>
+      </div>
       </div>
 
     </div>
   </div>
 
   <div class="row"> <!--Games-->
-    <div class="span2 text-right">
+    <div class="span2">
         <img src="img/beer-icon.png"></img>
     </div>
     <div class="span8">

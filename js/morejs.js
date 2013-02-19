@@ -27,3 +27,10 @@ var league = new Array();
 league[0] = new Team("Ardvarks", "Christopher", "Fryman", 9016045976, "farfromguam@gmail.com", 37210, "Fryman and Assoiciates", 67, 17);
 league[1] = new Team("Boss Hoggs", "Joe", "Shepherd", 6154840875, "shepright@comcast.net", 37205, "Brewhouse West", 3, 2);
 
+
+// Joes modal stuff
+$(document).ready(function(){
+$("#register").click(function(){
+  document.write("Hello there.");
+});
+}); //end of ready
