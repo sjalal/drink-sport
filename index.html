@@ -8,8 +8,8 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/morejs.js"></script>
 
-    <!--Linked Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
+    <!--Linked Fonts 
+    <link href='http://fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'> -->
 
 </head>
 <body>
@@ -18,6 +18,7 @@
   <div class="row"> <!--banner-->
     <div class="span2 pull-right text-right">
         <a class="btn" onclick="manage()">Secure login</a>
+        <a class="btn manage" onclick="startSeason()">startSeason()</a>
     </div>
     <div class="span8 offset2">
         <h1>Booze and Sports league</h1>
@@ -25,66 +26,42 @@
     </div>
   </div>
 
+<div class="playing">
  <div class="row"> <!--Teams-->
     <div class="span2">
         <img src="img/beer-icon.png"></img>
     </div>
     <div class="span8">
         <h3>Teams Playing this Year</h3>
+
         <script>
         for(i=0; i<league.length; i++)
         document.write(league[i].teamName + " <em>sponsored by</em> " + league[i].sponsor + "<br>");
         </script>
-    </div>
-  </div>
-
-  <div class="row"> <!--Table-->
-    <div class="span2">
-        <img src="img/beer-icon.png"></img>
-    </div>
-    <div class="span8">
-        <h3>Team Standings</h3>
-        
-        <table class="table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Team Name</th>
-                  <th>Wins</th>
-                  <th>losses</th>
-                  <th>Percent</th>
-                </tr>
-              </thead>
-              <tbody>  
-
+        <br>
+      <!-- Modal Buttons -->
         <script>
-        for(i=0; i<league.length; i++)
-        document.write(
-            "<tr>" +
-                "<td>" + (i+1) + "</td>" +
-                "<td>" + league[i].teamName + "</td>" +
-                "<td>" + league[i].wins + "</td>" +
-                "<td>" + league[i].losses + "</td>" +
-                "<td>" + league[i].percent + "</td>" +
-            "</tr>"
-        );
+        if (league.length < 4) {
+          document.write(
+            '<a href="#myModal" role="button" class="btn btn-warning" data-toggle="modal">Sign Up Today! We need more teams start the season.</a> <br><br>')
+        } else if (league.length === 8) {
+          document.write(
+            '<a class="btn btn-danger" >We have reached our max team number for this season</a> <br><br>')
+        } else {
+          document.write(
+            '<a href="#myModal" role="button" class="btn" data-toggle="modal">Sign up your team today!</a> <br><br>')
+        };
         </script>
-
-              </tbody>
-            </table>
-
-      <!-- Modal Button Begin Joes work-->
-      <a href="#myModal" role="button" class="btn" data-toggle="modal">Enter Team Info</a>
 
       <!-- Modal -->
       <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
+        <div class="modal-header grass">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
         <bold>close</bold>
         </button>
         <h3 id="myModalLabel">Bats, Beers & Brats</h3>
       </div>
-      <div class="modal-body">
+      <div class="modal-body dirt">
       <form class="form-horizontal">
         <div class="control-group">
           <label class="control-label" for="inputTeam">Team name</label>
@@ -128,7 +105,7 @@
         </div>
       </form>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer grass">
       <!-- <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button> -->
       <button class="btn btn-primary" id="register" data-dismiss="modal" aria-hidden="true">Register Your Team</button>
       </div>
@@ -136,6 +113,48 @@
 
     </div>
   </div>
+</div>
+<div class="standings">
+  <div class="row"> <!--Table-->
+    <div class="span2">
+        <img src="img/beer-icon.png"></img>
+    </div>
+    <div class="span8">
+        <h3>League Standings</h3>
+        
+        <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Team Name</th>
+                  <th>Wins</th>
+                  <th>losses</th>
+                  <th>Percent</th>
+                </tr>
+              </thead>
+              <tbody>  
+
+        <script>
+        // Sort by score high to low
+        league.sort(sort_by('rank', true, parseInt));
+
+        for(i=0; i<league.length; i++)
+        document.write(
+            "<tr>" +
+                "<td>" + (i+1) + "</td>" +
+                "<td>" + league[i].teamName + "</td>" +
+                "<td>" + league[i].wins + "</td>" +
+                "<td>" + league[i].losses + "</td>" +
+                "<td>" + league[i].percent + "</td>" +
+            "</tr>"
+        );
+        </script>
+
+              </tbody>
+            </table>
+    </div>
+  </div>
+</div>
 
   <div class="row"> <!--Games-->
     <div class="span2">
@@ -143,7 +162,21 @@
     </div>
     <div class="span8">
         <h3>Game Schedules</h3>
-        <p>Coming Soon!</p>
+
+        <a class="btn manage" onclick="alert('not yet')">Edit Game Outcomes</a>
+        <br class="manage"> <br class="manage">
+        
+        <p>Team array has been re-ordered by league ranking. Assign games by item other than array Position</p>
+
+
+
+    </div>
+  </div>
+
+  <div class="row"> <!--footer-->
+    <div class="span8 offset2 text-right">
+      <hr>
+        <h5>CODE BY :: BACK ROW WWW.ARRIORS :: NSS/2013</h5>
     </div>
   </div>
   

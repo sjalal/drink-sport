@@ -5,6 +5,15 @@
     display:none;
 }
 
+.playing {
+    display:inline;
+}
+
+.standings {
+    display:none;
+}
+
+
 h3 {
     /*font-family: 'Slackey', cursive;*/
     color: white;
@@ -15,13 +24,10 @@ h3 {
          1px  1px 0 #000;  
 }
           
-.modal-header {
+.grass {
     background-image: url("img/grass.jpg");
 }
-.modal-footer {
-    background-image: url("img/grass.jpg");
-}
-.modal-body {
+.dirt {
     background-image: url("img/dirt.jpg");
 }
           
