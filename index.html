@@ -35,16 +35,16 @@
         <h3>Teams Playing this Year</h3>
 
         <script>
-        for(i=0; i<league.length; i++)
-        document.write(league[i].teamName + " <em>sponsored by</em> " + league[i].sponsor + "<br>");
+        for(i=0; i<league2d.length; i++)
+        document.write(league2d[i][0] + " <em>sponsored by</em> " + league2d[i][6] + "<br>");
         </script>
         <br>
       <!-- Modal Buttons -->
         <script>
-        if (league.length < 4) {
+        if (league2d.length < 4) {
           document.write(
             '<a href="#myModal" role="button" class="btn btn-warning" data-toggle="modal">Sign Up Today! We need more teams start the season.</a> <br><br>')
-        } else if (league.length === 8) {
+        } else if (league2d.length === 8) {
           document.write(
             '<a class="btn btn-danger" >We have reached our max team number for this season</a> <br><br>')
         } else {
@@ -56,7 +56,7 @@
       <!-- Modal -->
       <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header grass">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="clearForm()">
         <bold>close</bold>
         </button>
         <h3 id="myModalLabel">Bats, Beers & Brats</h3>
@@ -64,50 +64,50 @@
       <div class="modal-body dirt">
       <form class="form-horizontal">
         <div class="control-group">
-          <label class="control-label" for="inputTeam">Team name</label>
+          <label class="control-label">Team name</label>
           <div class="controls">
-            <input type="text" id="inputTeamName" placeholder="Keep it clean, please!">
+            <input type="text" id="inputTeamName" class="teamImput" placeholder="Keep it clean, please!">
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="inputMgr">Manager's name</label>
+          <label class="control-label">Manager's name</label>
           <div class="controls">
-            <input type="text" id="inputMgrFirst" placeholder="First">
+            <input type="text" id="inputMgrFirst" class="teamImput" placeholder="First">
           </div>
           <br>
           <div class="controls">
-            <input type="text" id="inputMgrSecond" placeholder="Last">
+            <input type="text" id="inputMgrLast" class="teamImput" placeholder="Last">
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="inputTel">Manager's phone</label>
+          <label class="control-label">Manager's phone</label>
           <div class="controls">
-            <input type="tel" id="inputMgrPhone" placeholder="xxx-xxx-xxxx">
+            <input type="tel" id="inputMgrPhone" class="teamImput" placeholder="xxx-xxx-xxxx">
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="inputEmail">Manager's email</label>
+          <label class="control-label">Manager's email</label>
           <div class="controls">
-            <input type="email" id="inputMgrEmail" placeholder="">
+            <input type="email" id="inputMgrEmail" class="teamImput" placeholder="">
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="inputZip">Manager's zipcode</label>
+          <label class="control-label">Manager's zipcode</label>
           <div class="controls">
-            <input type="number" id="inputMgrZip" placeholder="">
+            <input type="text" id="inputMgrZip" class="teamImput" placeholder="">
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="inputSponsor">Team sponsor</label>
+          <label class="control-label">Team sponsor</label>
           <div class="controls">
-            <input type="text" id="inputSponsor" placeholder="">
+            <input type="text" id="inputSponsor" class="teamImput" placeholder="">
           </div>
         </div>
       </form>
       </div>
       <div class="modal-footer grass">
-      <!-- <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button> -->
-      <button class="btn btn-primary" id="register" data-dismiss="modal" aria-hidden="true">Register Your Team</button>
+      <button class="btn" onclick="clearForm()">Clear Form</button>
+      <button class="btn" id="register" data-dismiss="modal" aria-hidden="true" onclick="addTeam()">Register Your Team</button>
       </div>
       </div>
 
@@ -136,16 +136,16 @@
 
         <script>
         // Sort by score high to low
-        league.sort(sort_by('rank', true, parseInt));
 
-        for(i=0; i<league.length; i++)
+        // then display results
+        for(i=0; i<league2d.length; i++)
         document.write(
             "<tr>" +
                 "<td>" + (i+1) + "</td>" +
-                "<td>" + league[i].teamName + "</td>" +
-                "<td>" + league[i].wins + "</td>" +
-                "<td>" + league[i].losses + "</td>" +
-                "<td>" + league[i].percent + "</td>" +
+                "<td>" + league2d[i][0] + "</td>" +
+                "<td>" + league2d[i][7] + "</td>" +
+                "<td>" + league2d[i][8] + "</td>" +
+                "<td>" + league2d[i][9] + "</td>" +
             "</tr>"
         );
         </script>
@@ -166,8 +166,6 @@
         <a class="btn manage" onclick="alert('not yet')">Edit Game Outcomes</a>
         <br class="manage"> <br class="manage">
         
-        <p>Team array has been re-ordered by league ranking. Assign games by item other than array Position</p>
-
 
 
     </div>
