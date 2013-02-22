@@ -48,8 +48,11 @@ function addTeam() {
     data: team,
     success: function (data) {
       console.dir(data);
-      `
-    }
+      addTeamToTable(data);
+      populateTeamList(data);
+      track("Team: " + team.name + " added!");
+      doPopovers();
+      }
   });
 
 }; // end add team
