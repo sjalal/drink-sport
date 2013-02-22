@@ -13,8 +13,16 @@
     display:none;
 }
 
+.show{
+    cursor: pointer;
+}
+
+.teams .more {
+    padding-left: 25px;
+}
+
+/*
 h3 {
-    /*font-family: 'Slackey', cursive;*/
     color: white;
     text-shadow:
         -1px -1px 0 #000,
@@ -40,3 +48,4 @@ form {
         -1px  1px 0 #000,
          1px  1px 0 #000;  
 }
+*/
