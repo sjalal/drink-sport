@@ -1,24 +1,26 @@
-$(document).ready(function () {
-    // get from database
-    $.ajax({
-        type: "GET",
-        url: 'http://www.nashvillecoder.me/farfromguam/drink-sport.json',
-        dataType: "jsonp",
-        success:  console.log('json working... sorta')  // do something
-          
-    }) // end ajax
-}); // end ready
+// $(document).ready(function () {
+//     // get from database
+//     $.ajax({
+//         url: 'json/drink-sport.json',
+//         type: "GET",
+//         dataType: "jsonp",
+//         success: function(data) {
+//             alert(data);
+//         },
+
+//     }) // end ajax
+// }); // end ready
 
 // The league 
 // 0-team name, 1-Manager, 2-Manager Last, 3-Phone, 4-Email, 5-Zip, 6-Sponsor, 7-Wins, 8-Losses, 9-Percent
 var league2d = [
-["Ardvarks", "Christopher", "Fryman", "9016045976", "farfromguam@gmail.com", "37210", "Fryman and Assoiciates", "W", "L", "%"],
-["Boss Hoggs", "Joe", "Shepherd", "6154840875", "shepright@comcast.net", "37205", "Brewhouse West", "W", "L", "%"]
+    ["Ardvarks", "Christopher", "Fryman", "9016045976", "farfromguam@gmail.com", "37210", "Fryman and Assoiciates", "W", "L", "%"],
+    ["Boss Hoggs", "Joe", "Shepherd", "6154840875", "shepright@comcast.net", "37205", "Brewhouse West", "W", "L", "%"]
 ]
 
 // add team to league
-function addTeam() {
-    league2d.push(
+    function addTeam() {
+        league2d.push(
         [
         $("#inputTeamName").val(),
         $("#inputMgrFirst").val(),
@@ -26,21 +28,19 @@ function addTeam() {
         $("#inputMgrPhone").val(),
         $("#inputMgrEmail").val(),
         $("#inputSponsor").val(),
-        "W",
-        "L",
-        "%",
-        ]
-    );
-    alert("Thank you, " + $("#inputMgrFirst").val() + ', For registering your team "' + $("#inputTeamName").val() + '"');
-    clearForm();
-    console.log(JSON.stringify(league2d));
-}; // end add team
+            "W",
+            "L",
+            "%", ]);
+        alert("Thank you, " + $("#inputMgrFirst").val() + ', For registering your team "' + $("#inputTeamName").val() + '"');
+        clearForm();
+        console.log(JSON.stringify(league2d));
+    }; // end add team
 
 function clearForm() {
     $(".teamImput").each(function () {
         $(this).val("");
     });
-};  
+};
 
 function manage() {
     console.log("You are now logged in");
@@ -51,6 +51,17 @@ function startSeason() {
     $(".playing").css("display", "none");
     $(".standings").css("display", "inline");
 }
+
+// Popover like functionality 
+$(document).ready(function () {
+    $('.more').hide();
+    $('.show').click(
+
+    function () {
+        $(this).next('.more').toggle();
+    });
+}); // end ready
+
 
 // // reusable sort functions, and sort by any field
 // // http://stackoverflow.com/questions/979256/how-to-sort-an-array-of-javascript-objects

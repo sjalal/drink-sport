@@ -13,6 +13,14 @@
     display:none;
 }
 
+.show{
+    cursor: pointer;
+}
+
+.teams .more {
+    padding-left: 25px;
+}
+
 h3 {
     /*font-family: 'Slackey', cursive;*/
     color: white;
@@ -24,10 +32,10 @@ h3 {
 }
           
 .grass {
-    background-image: url("img/grass.jpg");
+    background-image: url("../img/grass.jpg");
 }
 .dirt {
-    background-image: url("img/dirt.jpg");
+    background-image: url("../img/dirt.jpg");
 }
           
 form {

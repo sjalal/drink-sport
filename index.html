@@ -1,128 +1,137 @@
 <!DOCTYPE HTML>
 <html>
+  
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/morejs.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
+  </head>
+  
+  <body>
+    <div class="container">
+      <div class="row">
+        <!--banner-->
+        <div class="span2 pull-right text-right">
+          <a class="btn" onclick="manage()">Secure login</a>
+          <a class="btn manage" onclick="startSeason()">startSeason()</a>
+        </div>
+        <div class="span8 offset2">
+           <h1>Booze and Sports league</h1>
 
-    <!--Linked Fonts 
-    <link href='http://fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'> -->
+           <h4>The official website for Booze and Sports league</h4>
 
-</head>
-<body>
-<div class="container">
-
-  <div class="row"> <!--banner-->
-    <div class="span2 pull-right text-right">
-        <a class="btn" onclick="manage()">Secure login</a>
-        <a class="btn manage" onclick="startSeason()">startSeason()</a>
-    </div>
-    <div class="span8 offset2">
-        <h1>Booze and Sports league</h1>
-        <h4>The official website for Booze and Sports league</h4>
-    </div>
-  </div>
-
-<div class="playing">
- <div class="row"> <!--Teams-->
-    <div class="span2">
-        <img src="img/beer-icon.png"></img>
-    </div>
-    <div class="span8">
-        <h3>Teams Playing this Year</h3>
-
-        <script>
-        for(i=0; i<league2d.length; i++)
-        document.write(league2d[i][0] + " <em>sponsored by</em> " + league2d[i][6] + "<br>");
-        </script>
-        <br>
-      <!-- Modal Buttons -->
-        <script>
-        if (league2d.length < 4) {
-          document.write(
-            '<a href="#myModal" role="button" class="btn btn-warning" data-toggle="modal">Sign Up Today! We need more teams start the season.</a> <br><br>')
-        } else if (league2d.length === 8) {
-          document.write(
-            '<a class="btn btn-danger" >We have reached our max team number for this season</a> <br><br>')
-        } else {
-          document.write(
-            '<a href="#myModal" role="button" class="btn" data-toggle="modal">Sign up your team today!</a> <br><br>')
-        };
-        </script>
-
-      <!-- Modal -->
-      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header grass">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="clearForm()">
-        <bold>close</bold>
-        </button>
-        <h3 id="myModalLabel">Bats, Beers & Brats</h3>
+        </div>
       </div>
-      <div class="modal-body dirt">
-      <form class="form-horizontal">
-        <div class="control-group">
-          <label class="control-label">Team name</label>
-          <div class="controls">
-            <input type="text" id="inputTeamName" class="teamImput" placeholder="Keep it clean, please!">
+      <div class="playing">
+        <div class="row">
+          <!--Teams-->
+          <div class="span2">
+            <img src="img/beer-icon.png"></img>
           </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Manager's name</label>
-          <div class="controls">
-            <input type="text" id="inputMgrFirst" class="teamImput" placeholder="First">
-          </div>
-          <br>
-          <div class="controls">
-            <input type="text" id="inputMgrLast" class="teamImput" placeholder="Last">
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Manager's phone</label>
-          <div class="controls">
-            <input type="tel" id="inputMgrPhone" class="teamImput" placeholder="xxx-xxx-xxxx">
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Manager's email</label>
-          <div class="controls">
-            <input type="email" id="inputMgrEmail" class="teamImput" placeholder="">
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Manager's zipcode</label>
-          <div class="controls">
-            <input type="text" id="inputMgrZip" class="teamImput" placeholder="">
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="control-label">Team sponsor</label>
-          <div class="controls">
-            <input type="text" id="inputSponsor" class="teamImput" placeholder="">
-          </div>
-        </div>
-      </form>
-      </div>
-      <div class="modal-footer grass">
-      <button class="btn" onclick="clearForm()">Clear Form</button>
-      <button class="btn" id="register" data-dismiss="modal" aria-hidden="true" onclick="addTeam()">Register Your Team</button>
-      </div>
-      </div>
+          <div class="span8 teams">
+             <h3>Teams Playing this Year</h3>
 
-    </div>
-  </div>
-</div>
-<div class="standings">
-  <div class="row"> <!--Table-->
-    <div class="span2">
-        <img src="img/beer-icon.png"></img>
-    </div>
-    <div class="span8">
-        <h3>League Standings</h3>
-        
-        <table class="table">
+            <script>
+              for (i = 0; i < league2d.length; i++)
+               document.write(
+                "<h4 class='show'>" + league2d[i][0] + " <em>sponsored by</em> " + league2d[i][6] + "<br>" +
+                "</h4>" +
+                "<p class='more'>" +
+                "Manager: " + league2d[i][1] + " " + league2d[i][2] + "<br>" +
+                "Phone: " + league2d[i][3] + "<br>" +
+                "E-mail: " + league2d[i][4] + "<br>" +
+                "</p>");
+            </script>
+            <br>
+            <!-- Modal Button -->
+            <script>
+              if (league2d.length < 4) {
+                document.write(
+                  '<a href="#myModal" role="button" class="btn btn-warning" data-toggle="modal">Sign Up Today! We need more teams start the season.</a> <br><br>')
+              } else if (league2d.length === 8) {
+                document.write(
+                  '<a class="btn btn-danger" >We have reached our max team number for this season</a> <br><br>')
+              } else {
+                document.write(
+                  '<a href="#myModal" role="button" class="btn" data-toggle="modal">Sign up your team today!</a> <br><br>')
+              };
+            </script>
+            <!-- Modal -->
+            <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-header grass">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="clearForm()">
+                  <bold>close</bold>
+                </button>
+                 <h3 id="myModalLabel">Bats, Beers & Brats</h3>
+
+              </div>
+              <div class="modal-body dirt">
+                <form class="form-horizontal">
+                  <div class="control-group">
+                    <label class="control-label">Team name</label>
+                    <div class="controls">
+                      <input type="text" id="inputTeamName" class="teamImput" placeholder="Keep it clean, please!">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Manager's name</label>
+                    <div class="controls">
+                      <input type="text" id="inputMgrFirst" class="teamImput" placeholder="First">
+                    </div>
+                    <br>
+                    <div class="controls">
+                      <input type="text" id="inputMgrLast" class="teamImput" placeholder="Last">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Manager's phone</label>
+                    <div class="controls">
+                      <input type="tel" id="inputMgrPhone" class="teamImput" placeholder="xxx-xxx-xxxx">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Manager's email</label>
+                    <div class="controls">
+                      <input type="email" id="inputMgrEmail" class="teamImput" placeholder="">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Manager's zipcode</label>
+                    <div class="controls">
+                      <input type="text" id="inputMgrZip" class="teamImput" placeholder="">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Team sponsor</label>
+                    <div class="controls">
+                      <input type="text" id="inputSponsor" class="teamImput" placeholder="">
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer grass">
+                <button class="btn" onclick="clearForm()">Clear Form</button>
+                <button class="btn" id="register" data-dismiss="modal" aria-hidden="true" onclick="addTeam()">Register Your Team</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="standings">
+        <div class="row">
+          <!--Table-->
+          <div class="span2">
+            <img src="img/beer-icon.png"></img>
+          </div>
+          <div class="span8">
+             <h3>League Standings</h3>
+
+            <table class="table">
               <thead>
                 <tr>
                   <th>#</th>
@@ -132,52 +141,53 @@
                   <th>Percent</th>
                 </tr>
               </thead>
-              <tbody>  
+              <tbody>
+                <script>
+                  // Sort by score high to low
 
-        <script>
-        // Sort by score high to low
-
-        // then display results
-        for(i=0; i<league2d.length; i++)
-        document.write(
-            "<tr>" +
-                "<td>" + (i+1) + "</td>" +
-                "<td>" + league2d[i][0] + "</td>" +
-                "<td>" + league2d[i][7] + "</td>" +
-                "<td>" + league2d[i][8] + "</td>" +
-                "<td>" + league2d[i][9] + "</td>" +
-            "</tr>"
-        );
-        </script>
-
+                  // then display results
+                  for (i = 0; i < league2d.length; i++)
+                   document.write(
+                    "<tr>" +
+                    "<td>" + (i + 1) + "</td>" +
+                    "<td><span class='show'>" + league2d[i][0] + " <em>sponsored by</em> " + league2d[i][6] + "</span>" +
+                    "<p class='more'><br>" +
+                    "Manager: " + league2d[i][1] + " " + league2d[i][2] + "<br>" +
+                    "Phone: " + league2d[i][3] + "<br>" +
+                    "E-mail: " + league2d[i][4] + "<br></p>" +
+                    "</td>" +
+                    "<td>" + league2d[i][7] + "</td>" +
+                    "<td>" + league2d[i][8] + "</td>" +
+                    "<td>" + league2d[i][9] + "</td>" +
+                    "</tr>");
+                </script>
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!--Games-->
+        <div class="span2">
+          <img src="img/beer-icon.png"></img>
+        </div>
+        <div class="span8">
+           <h3>Game Schedules</h3>
+
+          <a class="btn manage" onclick="alert('not yet')">Edit Game Outcomes</a>
+          <br class="manage">
+          <br class="manage">
+        </div>
+      </div>
+      <div class="row">
+        <!--footer-->
+        <div class="span8 offset2 text-right">
+          <hr>
+           <h5>CODE BY :: BACK ROW WWW.ARRIORS :: NSS/2013</h5>
+
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  </body>
 
-  <div class="row"> <!--Games-->
-    <div class="span2">
-        <img src="img/beer-icon.png"></img>
-    </div>
-    <div class="span8">
-        <h3>Game Schedules</h3>
-
-        <a class="btn manage" onclick="alert('not yet')">Edit Game Outcomes</a>
-        <br class="manage"> <br class="manage">
-        
-
-
-    </div>
-  </div>
-
-  <div class="row"> <!--footer-->
-    <div class="span8 offset2 text-right">
-      <hr>
-        <h5>CODE BY :: BACK ROW WWW.ARRIORS :: NSS/2013</h5>
-    </div>
-  </div>
-  
-</div>
-</body>
 </html>
