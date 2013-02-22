@@ -33,10 +33,16 @@
     </div>
     <div class="span8">
         <h3>Teams Playing this Year</h3>
+<script type="text/javascript">
+              $(league2d).each(function() {
+              document.write($(this)[0] + " <em>sponsored by</em> " + $(this)[6] +"<br>");
 
+          });
+</script>
         <script>
-        for(i=0; i<league2d.length; i++)
-        document.write(league2d[i][0] + " <em>sponsored by</em> " + league2d[i][6] + "<br>");
+        
+        // for(i=0; i<league2d.length; i++)
+        // document.write(league2d[i][0] + " <em>sponsored by</em> " + league2d[i][6] + "<br>");
         </script>
         <br>
       <!-- Modal Buttons -->
@@ -62,13 +68,17 @@
         <h3 id="myModalLabel">Bats, Beers & Brats</h3>
       </div>
       <div class="modal-body dirt">
-      <form class="form-horizontal">
+
+        <!-- begin form -->
+      <form class="form-horizontal" id="signup_form">
+
         <div class="control-group">
           <label class="control-label">Team name</label>
           <div class="controls">
             <input type="text" id="inputTeamName" class="teamImput" placeholder="Keep it clean, please!">
           </div>
         </div>
+
         <div class="control-group">
           <label class="control-label">Manager's name</label>
           <div class="controls">
@@ -79,37 +89,42 @@
             <input type="text" id="inputMgrLast" class="teamImput" placeholder="Last">
           </div>
         </div>
+
         <div class="control-group">
           <label class="control-label">Manager's phone</label>
           <div class="controls">
             <input type="tel" id="inputMgrPhone" class="teamImput" placeholder="xxx-xxx-xxxx">
           </div>
         </div>
+
         <div class="control-group">
           <label class="control-label">Manager's email</label>
           <div class="controls">
             <input type="email" id="inputMgrEmail" class="teamImput" placeholder="">
           </div>
         </div>
+
         <div class="control-group">
           <label class="control-label">Manager's zipcode</label>
           <div class="controls">
             <input type="text" id="inputMgrZip" class="teamImput" placeholder="">
           </div>
         </div>
+
         <div class="control-group">
           <label class="control-label">Team sponsor</label>
           <div class="controls">
             <input type="text" id="inputSponsor" class="teamImput" placeholder="">
           </div>
         </div>
-      </form>
+      </form><!-- end form -->
+      
       </div>
       <div class="modal-footer grass">
       <button class="btn" onclick="clearForm()">Clear Form</button>
-      <button class="btn" id="register" data-dismiss="modal" aria-hidden="true" onclick="addTeam()">Register Your Team</button>
+      <button class="btn" id="register" data-dismiss="modal" aria-hidden="true">Register Your Team</button>
       </div>
-      </div>
+      </div><!-- end modal -->
 
     </div>
   </div>

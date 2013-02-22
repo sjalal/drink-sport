@@ -24,10 +24,10 @@ h3 {
 }
           
 .grass {
-    background-image: url("img/grass.jpg");
+    background-image: url("../img/grass.jpg");
 }
 .dirt {
-    background-image: url("img/dirt.jpg");
+    background-image: url("../img/dirt.jpg");
 }
           
 form {

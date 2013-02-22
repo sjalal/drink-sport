@@ -1,13 +1,26 @@
 $(document).ready(function () {
-    // get from database
-    $.ajax({
-        type: "GET",
-        url: 'http://www.nashvillecoder.me/farfromguam/drink-sport.json',
-        dataType: "jsonp",
-        success:  console.log('json working... sorta')  // do something
-          
-    }) // end ajax
+    $('#register').click( function() {
+        var formData = $(this).serialize();
+        $.get('../json/drink-sport.json', formData, processData);
+        function processData(data) {
+            console.log(data);
+        }//end process data
+        
+});  //end click
+
+// $('#register').click( function() {
+//     $.ajax({
+//         url: 'http://www.nashvillecoder.me/joeshep/bats-beer-brats.json',
+//         type: 'post',
+//         dataType: 'json',
+//         data: $('#signup_form').serialize(),
+//         success: function(data) {
+//                   alert("yay");
+//                  }
+//     });
+// });
 }); // end ready
+
 
 // The league 
 // 0-team name, 1-Manager, 2-Manager Last, 3-Phone, 4-Email, 5-Zip, 6-Sponsor, 7-Wins, 8-Losses, 9-Percent
@@ -32,9 +45,12 @@ function addTeam() {
         ]
     );
     alert("Thank you, " + $("#inputMgrFirst").val() + ', For registering your team "' + $("#inputTeamName").val() + '"');
+    
     clearForm();
-    console.log(JSON.stringify(league2d));
+    
 }; // end add team
+
+
 
 function clearForm() {
     $(".teamImput").each(function () {
