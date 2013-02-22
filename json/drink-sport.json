@@ -1,0 +1,30 @@
+{
+    "vegetables": [
+        "Swiss Chard",
+        "Tomato",
+        "Lettuce",
+        "Kohlrabi",
+        "Peppers",
+        "Cabbage",
+        "Okra",
+        "Green Beans"
+    ],
+    "fruits": [
+        "Apples",
+        "Blackberries",
+        "Stawberries",
+        "Pears",
+        "Oranges",
+        "Bananas",
+        "Watermelon",
+        "Canteloupe"
+    ],
+    "meats": [
+        "Steak",
+        "Pork Sausage",
+        "Pork Chops",
+        "Chicken Breast",
+        "Eggs",
+        "Ground Chuck"
+    ]
+}
