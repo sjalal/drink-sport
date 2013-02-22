@@ -1,15 +1,13 @@
 <!DOCTYPE HTML>
-<html>
   
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/morejs.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Slackey' rel='stylesheet' type='text/css'>
   </head>
   
   <body>
@@ -22,11 +20,13 @@
         </div>
         <div class="span8 offset2">
            <h1>Booze and Sports league</h1>
-
            <h4>The official website for Booze and Sports league</h4>
-
         </div>
       </div>
+
+    <div class="row"> <!--content-->
+      <div class="span10">
+
       <div class="playing">
         <div class="row">
           <!--Teams-->
@@ -35,31 +35,21 @@
           </div>
           <div class="span8 teams">
              <h3>Teams Playing this Year</h3>
-
-            <script>
-              for (i = 0; i < league2d.length; i++)
-               document.write(
-                "<h4 class='show'>" + league2d[i][0] + " <em>sponsored by</em> " + league2d[i][6] + "<br>" +
-                "</h4>" +
-                "<p class='more'>" +
-                "Manager: " + league2d[i][1] + " " + league2d[i][2] + "<br>" +
-                "Phone: " + league2d[i][3] + "<br>" +
-                "E-mail: " + league2d[i][4] + "<br>" +
-                "</p>");
-            </script>
-            <br>
+               <div id="teamList">
+               <!-- This will be populated by function populateTeamList -->
+               </div>
             <!-- Modal Button -->
             <script>
-              if (league2d.length < 4) {
-                document.write(
-                  '<a href="#myModal" role="button" class="btn btn-warning" data-toggle="modal">Sign Up Today! We need more teams start the season.</a> <br><br>')
-              } else if (league2d.length === 8) {
-                document.write(
-                  '<a class="btn btn-danger" >We have reached our max team number for this season</a> <br><br>')
-              } else {
+              // if (league2d.length < 4) {
+              //   document.write(
+              //     '<a href="#myModal" role="button" class="btn btn-warning" data-toggle="modal">Sign Up Today! We need more teams start the season.</a> <br><br>')
+              // } else if (league2d.length === 8) {
+              //   document.write(
+              //     '<a class="btn btn-danger" >We have reached our max team number for this season</a> <br><br>')
+              // } else {
                 document.write(
                   '<a href="#myModal" role="button" class="btn" data-toggle="modal">Sign up your team today!</a> <br><br>')
-              };
+              //};
             </script>
             <!-- Modal -->
             <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -131,7 +121,7 @@
           <div class="span8">
              <h3>League Standings</h3>
 
-            <table class="table">
+            <table id="teamStandings" class="table">
               <thead>
                 <tr>
                   <th>#</th>
@@ -141,26 +131,8 @@
                   <th>Percent</th>
                 </tr>
               </thead>
-              <tbody>
-                <script>
-                  // Sort by score high to low
-
-                  // then display results
-                  for (i = 0; i < league2d.length; i++)
-                   document.write(
-                    "<tr>" +
-                    "<td>" + (i + 1) + "</td>" +
-                    "<td><span class='show'>" + league2d[i][0] + " <em>sponsored by</em> " + league2d[i][6] + "</span>" +
-                    "<p class='more'><br>" +
-                    "Manager: " + league2d[i][1] + " " + league2d[i][2] + "<br>" +
-                    "Phone: " + league2d[i][3] + "<br>" +
-                    "E-mail: " + league2d[i][4] + "<br></p>" +
-                    "</td>" +
-                    "<td>" + league2d[i][7] + "</td>" +
-                    "<td>" + league2d[i][8] + "</td>" +
-                    "<td>" + league2d[i][9] + "</td>" +
-                    "</tr>");
-                </script>
+              <tbody>              
+                <!-- teams will be added by function addTeamToTable -->
               </tbody>
             </table>
           </div>
@@ -174,7 +146,7 @@
         <div class="span8">
            <h3>Game Schedules</h3>
 
-          <a class="btn manage" onclick="alert('not yet')">Edit Game Outcomes</a>
+          <a class="btn manage" onclick="track('Not just yet :(')">Edit Game Outcomes</a>
           <br class="manage">
           <br class="manage">
         </div>
@@ -188,6 +160,12 @@
         </div>
       </div>
     </div>
+
+    <div id="console" class="span2">
+      <h5>Activity Console:</h5>
+    </div>
+  </div>
+  </div>
   </body>
 
 </html>
