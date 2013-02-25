@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-  
+<html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -34,23 +34,18 @@
             <img src="img/beer-icon.png"></img>
           </div>
           <div class="span8 teams">
-             <h3>Teams Playing this Year</h3>
-               <div id="teamList">
-               <!-- This will be populated by function populateTeamList -->
-               </div>
-            <!-- Modal Button -->
-            <script>
-              // if (league2d.length < 4) {
-              //   document.write(
-              //     '<a href="#myModal" role="button" class="btn btn-warning" data-toggle="modal">Sign Up Today! We need more teams start the season.</a> <br><br>')
-              // } else if (league2d.length === 8) {
-              //   document.write(
-              //     '<a class="btn btn-danger" >We have reached our max team number for this season</a> <br><br>')
-              // } else {
-                document.write(
-                  '<a href="#myModal" role="button" class="btn" data-toggle="modal">Sign up your team today!</a> <br><br>')
-              //};
-            </script>
+            <h3>Teams Playing this Year</h3>
+              <div id="teamList">
+              <p> This will be populated by function populateTeamList </p>
+              </div>
+              <div id="signUpButton">
+              <!-- This will be populated by function displayButton -->
+              <script>
+                displayButton();
+              </script>
+              </div>
+
+
             <!-- Modal -->
             <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-header grass">
@@ -105,8 +100,8 @@
                 </form>
               </div>
               <div class="modal-footer grass">
-                <button class="btn" onclick="clearForm()">Clear Form</button>
-                <button class="btn" id="register" data-dismiss="modal" aria-hidden="true" onclick="addTeam()">Register Your Team</button>
+                <button id="clearForm" class="btn" onclick="clearForm">Clear Form</button>
+                <button id="addTeam" class="btn" data-dismiss="modal" aria-hidden="true" onclick="addTeam()">Register Your Team</button>
               </div>
             </div>
           </div>
@@ -120,8 +115,7 @@
           </div>
           <div class="span8">
              <h3>League Standings</h3>
-
-            <table id="teamStandings" class="table">
+            <table id="teamTable" class="table">
               <thead>
                 <tr>
                   <th>#</th>
