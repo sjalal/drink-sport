@@ -143,11 +143,6 @@ function doPopovers() {
 }
 
 function populateGameSchedules(x) {
-<<<<<<< HEAD
-=======
-
-$('#gameSchedules').append(x);
->>>>>>> cf7525d63870feab4e0c25d226ec9c73413a5c5b
   if (x === 4) {
     $('#gameSchedules').append(sched4);
   } else if (x === 5 || x === 6) {
