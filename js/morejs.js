@@ -17,12 +17,32 @@ function getFromDatabase() {
     dataType: "json",
     success: function (data) {
       track("Connected to database");
-      displayButton(data.length);
-      populateGameSchedules(data.length);
+      
+      // add scheduleId and wpc to records
       for (var i = 0; i < data.length; i++) {
-        populateTeamTable(data[i]);
+          data[i]['scheduleId'] = i + 1;
+          data[i]['wpc'] = (parseInt(data[i].wins)/(parseInt(data[i].wins)+parseInt(data[i].losses))).toFixed(3);
+      }
+
+      // Teams Playing This Year
+      for (var i = 0; i < data.length; i++) {
         populateTeamList(data[i]);
       }
+      displayButton(data.length);
+
+      // League Standings      
+      // sort by wpc
+      data.sort(sort_by('wpc', true, parseFloat));
+      for (var i = 0; i < data.length; i++) {
+        populateTeamTable(data[i], i);
+      }    
+      
+      // Game Schedules
+      for (var i = 0; i < data.length; i++) {
+        $('#gameSchedules').append(data[i].name + " is team # " + data[i].scheduleId + "<br>");
+      }
+      populateGameSchedules(data.length);
+
       doPopovers();
       track("Fresh data loaded");
     }
@@ -116,11 +136,10 @@ function displayButton(x) {
   };
 }
 
-function populateTeamTable(team) {
-  var percent = (parseInt(team.wins)/(parseInt(team.wins)+parseInt(team.losses))).toFixed(3);
+function populateTeamTable(team, i) {
   $(
     "<tr>" +
-    "<td>" + team.id + "</td>" +
+    "<td>" + (i+1) + "</td>" +
     "<td><span class='show'>" + team.name + " <em>sponsored by</em> " + team.sponsor + "</span>" +
     "<p class='more'><br>" +
     "Manager: " + team.mgrFirst + " " + team.mgrLast + "<br>" +
@@ -129,7 +148,7 @@ function populateTeamTable(team) {
     "</td>" +
     "<td>" + team.wins + "</td>" +
     "<td>" + team.losses + "</td>" +
-    "<td>" + percent + "</td>" +
+    "<td>" + team.wpc + "</td>" +
     "</tr>").appendTo('#teamTable tbody');
 }
 
@@ -178,17 +197,17 @@ var sched8 = [
 [ [1, 2], [3, 8], [4, 7], [5, 6] ]
 ];
 
-// // reusable sort functions, and sort by any field
-// // http://stackoverflow.com/questions/979256/how-to-sort-an-array-of-javascript-objects
-// var sort_by = function (field, reverse, primer) {
-//     var key = primer ? function (x) {
-//             return primer(x[field]);
-//         } : function (x) {
-//             return x[field];
-//         }
-//     return function (a, b) {
-//         var A = key(a),
-//             B = key(b);
-//         return (A < B ? -1 : (A > B ? 1 : 0)) * [1, -1][+ !! reverse];
-//     }
-// }
+// reusable sort functions, and sort by any field
+// http://stackoverflow.com/questions/979256/how-to-sort-an-array-of-javascript-objects
+var sort_by = function (field, reverse, primer) {
+    var key = primer ? function (x) {
+            return primer(x[field]);
+        } : function (x) {
+            return x[field];
+        }
+    return function (a, b) {
+        var A = key(a),
+            B = key(b);
+        return (A < B ? -1 : (A > B ? 1 : 0)) * [1, -1][+ !! reverse];
+    }
+}
