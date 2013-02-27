@@ -4,14 +4,14 @@
 .manage {
     display:none;
 }
-
+/*
 .playing {
     display:inline;
 }
 
 .standings {
     display:none;
-}
+} */
 
 .show{
     cursor: pointer;

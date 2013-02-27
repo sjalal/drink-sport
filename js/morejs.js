@@ -20,28 +20,21 @@ function getFromDatabase() {
       
       // add scheduleId and wpc to records
       for (var i = 0; i < data.length; i++) {
-          data[i]['scheduleId'] = i + 1;
-          data[i]['wpc'] = (parseInt(data[i].wins)/(parseInt(data[i].wins)+parseInt(data[i].losses))).toFixed(3);
+        data[i]['scheduleId'] = i + 1;
+        data[i]['wpc'] = (parseInt(data[i].wins)/(parseInt(data[i].wins)+parseInt(data[i].losses))).toFixed(3);
       }
 
       // Teams Playing This Year
-      for (var i = 0; i < data.length; i++) {
-        populateTeamList(data[i]);
-      }
+      populateTeamList(data);
       displayButton(data.length);
 
       // League Standings      
-      // sort by wpc
       data.sort(sort_by('wpc', true, parseFloat));
-      for (var i = 0; i < data.length; i++) {
-        populateTeamTable(data[i], i);
-      }    
+      populateTeamTable(data);
       
       // Game Schedules
-      for (var i = 0; i < data.length; i++) {
-        $('#gameSchedules').append(data[i].name + " is team # " + data[i].scheduleId + "<br>");
-      }
-      populateGameSchedules(data.length);
+      data.sort(sort_by('scheduleId', false, parseFloat));
+      populateGameSchedules(data);
 
       doPopovers();
       track("Fresh data loaded");
@@ -110,20 +103,16 @@ function startSeason() {
 }
 
 function populateTeamList(team) {
-  $(
-    "<h4 class='show'>" + team.name + " <em>sponsored by</em> " + team.sponsor + " </h4>" + 
-    "<p class='more'>" +
-    "Manager: " + team.mgrFirst + " " + team.mgrLast + "<br>" +
-    "Phone: " + team.mgrPhone + "<br>" +
-    "E-mail: " + team.mgrEmail + "<br>" +
-    "<a class='manage' onclick='deleteTeam(\"" + team.id + "\")'>Delete Team</a>" +
-    "</p>").appendTo('#teamList');
-}
-
-function displayButton() {
-  $(
-    document.write('<a href="#myModal" role="button" class="btn" data-toggle="modal">Sign up your team today!</a>')
-    ).appendTo('#signUpButton');
+  for (var i = 0; i < team.length; i++) {
+    $(
+      "<h4 class='show'>" + team[i].name + " <em>sponsored by</em> " + team[i].sponsor + " </h4>" + 
+      "<p class='more'>" +
+      "Manager: " + team[i].mgrFirst + " " + team[i].mgrLast + "<br>" +
+      "Phone: " + team[i].mgrPhone + "<br>" +
+      "E-mail: " + team[i].mgrEmail + "<br>" +
+      "<a class='manage' onclick='deleteTeam(\"" + team[i].id + "\")'>Delete Team</a>" +
+      "</p>").appendTo('#teamList');
+  };
 }
 
 function displayButton(x) {
@@ -136,20 +125,22 @@ function displayButton(x) {
   };
 }
 
-function populateTeamTable(team, i) {
-  $(
-    "<tr>" +
-    "<td>" + (i+1) + "</td>" +
-    "<td><span class='show'>" + team.name + " <em>sponsored by</em> " + team.sponsor + "</span>" +
-    "<p class='more'><br>" +
-    "Manager: " + team.mgrFirst + " " + team.mgrLast + "<br>" +
-    "Phone: " + team.mgrPhone + "<br>" +
-    "E-mail: " + team.mgrEmail + "<br></p>" +
-    "</td>" +
-    "<td>" + team.wins + "</td>" +
-    "<td>" + team.losses + "</td>" +
-    "<td>" + team.wpc + "</td>" +
-    "</tr>").appendTo('#teamTable tbody');
+function populateTeamTable(team) {
+  for (var i = 0; i < team.length; i++) {
+    $(
+      "<tr>" +
+      "<td>" + (i+1) + "</td>" +
+      "<td><span class='show'>" + team[i].name + " <em>sponsored by</em> " + team[i].sponsor + "</span>" +
+      "<p class='more'><br>" +
+      "Manager: " + team[i].mgrFirst + " " + team[i].mgrLast + "<br>" +
+      "Phone: " + team[i].mgrPhone + "<br>" +
+      "E-mail: " + team[i].mgrEmail + "<br></p>" +
+      "</td>" +
+      "<td>" + team[i].wins + "</td>" +
+      "<td>" + team[i].losses + "</td>" +
+      "<td>" + team[i].wpc + "</td>" +
+      "</tr>").appendTo('#teamTable tbody');
+  }
 }
 
 function doPopovers() { 
@@ -161,25 +152,40 @@ function doPopovers() {
   });
 }
 
-function populateGameSchedules(x) {
-  if (x === 4) {
-    $('#gameSchedules').append(sched4);
-  } else if (x === 5 || x === 6) {
-    $('#gameSchedules').append(sched6);
-  } else if (x === 7 || x === 8) {
-    $('#gameSchedules').append(sched8);
+function populateGameSchedules(t) {
+  
+  if (t.length === 4) {
+    var s = blankSchedule4; 
+  } else if (t.length === 5 || t.length === 6) {
+    var s = blankSchedule6;
+  } else if (t.length === 7 || t.length === 8) {
+    var s = blankSchedule8;
   } else {
-    $('#gameSchedules').append('<p class="text-error">There are not enough teams to start season play<p>');
+    $('<p class="text-error">There are not enough teams to schedule the games<p>').appendTo('#gameSchedules');
+    return; // dump from function
   }
+
+  // s-schedule w-week g-game 0/1-Home/Away
+  for (var w = 0; w < s.length; w++) {
+    $("<h5>Week " + (w+1) + " Schedule:</h5>").appendTo('#gameSchedules');
+    for (var g = 0; g < s[w].length; g++) {
+      $("<p>" + t[(s[w][g][0]-1)].name + " vs " + t[(s[w][g][1]-1)].name + "</p>"
+
+        //<span class
+
+        ).appendTo('#gameSchedules');
+    };
+  };
+
 }
 
-var sched4 = [ 
+var blankSchedule4 = [ 
 [ [1, 4], [2, 3] ],
 [ [1, 3], [2, 4] ],
 [ [1, 2], [3, 4] ]
 ];
 
-var sched6 = [ 
+var blankSchedule6 = [ 
 [ [1, 6], [2, 5], [3, 4] ],
 [ [1, 5], [4, 6], [2, 3] ],
 [ [1, 4], [3, 5], [2, 6] ],
@@ -187,7 +193,7 @@ var sched6 = [
 [ [1, 2], [3, 6], [4, 5] ]
 ];
 
-var sched8 = [
+var blankSchedule8 = [
 [ [1, 8], [2, 7], [3, 6], [4, 5] ],
 [ [1, 7], [6, 8], [2, 5], [3, 4] ],
 [ [1, 6], [5, 7], [4, 8], [2, 3] ],
