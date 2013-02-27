@@ -60,7 +60,6 @@ function addTeam() {
     dataType: "json",
     data: team,
     success: function (data) {
-      console.dir(data);
       track("Team: " + team.name + " added!");
       clearForm();
       getFromDatabase();
@@ -75,9 +74,11 @@ function deleteTeam(id) {
       url: "backliftapp/team/" + id,
       type: "DELETE",
       dataType: "json",
+      success: function() { 
+        track("deleted: " + id);
+        getFromDatabase();
+      }
     });
-  track("deleted: " + id);
-  getFromDatabase();
   }
 }
 
@@ -156,28 +157,47 @@ function populateGameSchedules(t) {
   
   if (t.length === 4) {
     var s = blankSchedule4; 
-  } else if (t.length === 5 || t.length === 6) {
+  } else if (t.length === 6) {
     var s = blankSchedule6;
-  } else if (t.length === 7 || t.length === 8) {
+  } else if (t.length === 8) {
     var s = blankSchedule8;
   } else {
-    $('<p class="text-error">There are not enough teams to schedule the games<p>').appendTo('#gameSchedules');
+    $('<p class="text-error">There is not a schedule for the current amount of teams<p>').appendTo('#gameSchedules');
     return; // dump from function
   }
 
-  // s-schedule w-week g-game 0/1-Home/Away
+  // t-team s-schedule w-week g-game 0/1-Home/Away
   for (var w = 0; w < s.length; w++) {
-    $("<h5>Week " + (w+1) + " Schedule:</h5>").appendTo('#gameSchedules');
+    $("<table class='table'>" +
+      "<thead>" +
+      "<tr>" +
+      "<th>Week " + (w+1) + "</th>" +
+      "<th>Matchup</th>" +
+      "<th>Score</th>" +
+      "</tr>" +
+      "</thead>" +
+      "<tbody>" +
+      "</tbody>" +
+      "</table>").appendTo('#gameSchedules');
+
     for (var g = 0; g < s[w].length; g++) {
-      $("<p>" + t[(s[w][g][0]-1)].name + " vs " + t[(s[w][g][1]-1)].name + "</p>"
-
-        //<span class
-
-        ).appendTo('#gameSchedules');
+      $("<tr>" +
+        "<td>" + (g+1) + ":00 pm" + "</td>" +
+        "<td>" + t[(s[w][g][0] - 1)].name + " vs. " + t[(s[w][g][1] - 1)].name + "</td>" +
+        "<td>" + "0-0 " + "<a class='manage'>Edit<span>" + "</a>" +
+        "</tr>").appendTo('tbody:last');
     };
   };
-
 }
+
+  // // The raw Populate game schedule Magic -- Props to dmoore5050
+  // // t-team s-schedule w-week g-game 0/1-Home/Away
+  // for (var w = 0; w < s.length; w++) {
+  //   $("Week " + (w+1) + " Schedule<br>").appendTo('#gameSchedules');
+  //   for (var g = 0; g < s[w].length; g++) {
+  //     $(  t[s[w][g][0]].name + " vs. " + t[s[w][g][1]].name + "<br>").appendTo('#gameSchedules');
+  //   };
+  // };
 
 var blankSchedule4 = [ 
 [ [1, 4], [2, 3] ],
