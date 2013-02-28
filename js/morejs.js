@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  track("Document Ready");
+  track("<i class='icon-file'></i> Document Ready");
   getFromDatabase();  
 }); // end ready
 
@@ -9,14 +9,15 @@ function getFromDatabase() {
   $('#teamTable tbody').empty();
   $('#signUpButton').empty();
   $('#gameSchedules').empty();
-  track("Cleared old data")
+  track("<i class='icon-trash'></i> Cleared old data")
 
   $.ajax({
     url: 'backliftapp/team',
     type: "GET",
     dataType: "json",
     success: function (data) {
-      track("Connected to database");
+      track("<i class='icon-hdd'></i> Connected to database");
+      track("<i class='icon-download-alt'></i> Fresh data loaded");
       
       // add scheduleId and wpc to records
       for (var i = 0; i < data.length; i++) {
@@ -30,14 +31,15 @@ function getFromDatabase() {
 
       // League Standings      
       data.sort(sort_by('wpc', true, parseFloat));
+      track("<i class='icon-random'></i> Teams sorted");
       populateTeamTable(data);
-      
+    
       // Game Schedules
       data.sort(sort_by('scheduleId', false, parseFloat));
       populateGameSchedules(data);
 
       doPopovers();
-      track("Fresh data loaded");
+    
     }
   }); // end ajax
 };
@@ -60,7 +62,7 @@ function addTeam() {
     dataType: "json",
     data: team,
     success: function (data) {
-      track("Team: " + team.name + " added!");
+      track("<i class='icon-plus'></i> Team: " + team.name + " added!");
       clearForm();
       getFromDatabase();
     }
@@ -75,7 +77,7 @@ function deleteTeam(id) {
       type: "DELETE",
       dataType: "json",
       success: function() { 
-        track("deleted: " + id);
+        track("<i class='icon-minus'></i> Deleted: " + id);
         getFromDatabase();
       }
     });
@@ -93,14 +95,14 @@ function clearForm() {
 };
 
 function manage() {
-  track("You are now logged in");
+  track("<i class='icon-wrench'></i> You are now logged in");
   $(".manage").css("display", "inline");
 }
 
 function startSeason() {
   $(".playing").css("display", "none");
   $(".standings").css("display", "inline");
-  track("Season Started!")
+  track("<i class='icon-warning-sign'></i>  Season Started!")
 }
 
 function populateTeamList(team) {
@@ -149,47 +151,63 @@ function doPopovers() {
   $('.show').click(
   function () {
     $(this).next('.more').toggle();
-    track("Popover working!")
+    track("<i class='icon-resize-vertical'></i> Popover working!")
   });
 }
 
 function populateGameSchedules(t) {
-  
+
   if (t.length === 4) {
-    var s = blankSchedule4; 
-  } else if (t.length === 6) {
+    var s = blankSchedule4;
+  } else if (t.length === 5 || t.length === 6) {
     var s = blankSchedule6;
-  } else if (t.length === 8) {
+  } else if (t.length === 7 || t.length === 8) {
     var s = blankSchedule8;
   } else {
     $('<p class="text-error">There is not a schedule for the current amount of teams<p>').appendTo('#gameSchedules');
     return; // dump from function
   }
 
-  // t-team s-schedule w-week g-game 0/1-Home/Away
+  if (t.length % 2 === 1) {
+    var oe = "Odd";
+    var x = 1;
+    var y = 0;
+    var z = 2;
+  } else {
+    var oe = "Even";
+    var x = 0;
+    var y = 1;
+    var z = 1;
+  }
+
+  // t-team s-schedule w-week g-game 0/1-Home/Away x,y,x,oe-variables to make odd schedules work
   for (var w = 0; w < s.length; w++) {
-    $("<table class='table'>" +
-      "<thead>" +
-      "<tr>" +
-      "<th>Week " + (w+1) + "</th>" +
+    $("<table class='table table-striped'><thead><tr>" +
+      "<th>Week " + (w + 1) + "</th>" +
       "<th>Matchup</th>" +
       "<th>Score</th>" +
-      "</tr>" +
-      "</thead>" +
-      "<tbody>" +
-      "</tbody>" +
-      "</table>").appendTo('#gameSchedules');
-
-    for (var g = 0; g < s[w].length; g++) {
+      "</tr></thead><tbody>" +
+        // will be populated by next for loop
+      "</tbody></table>").appendTo('#gameSchedules');
+    for (var g = x; g < s[w].length; g++) {
       $("<tr>" +
-        "<td>" + (g+1) + ":00 pm" + "</td>" +
-        "<td>" + t[(s[w][g][0] - 1)].name + " vs. " + t[(s[w][g][1] - 1)].name + "</td>" +
+        "<td>" + (g + y) + ":00 pm" + "</td>" +
+        "<td>" + t[(s[w][g][0] - z)].name + " vs. " + t[(s[w][g][1] - z)].name + "</td>" +
         "<td>" + "0-0 " + "<a class='manage'>Edit<span>" + "</a>" +
         "</tr>").appendTo('tbody:last');
     };
+    if (t.length % 2 === 1){
+      $("<tr class='warning'>" +
+        "<td>&nbsp;</td>" +
+        "<td>Team off: " + t[(s[w][0][1] - z)].name + "</td>" +
+        "<td>&nbsp;</td>" +
+        "<tr>").appendTo('tbody:last'); 
+    };
   };
-}
+  track("<i class='icon-calendar'></i>&nbsp;" + oe + " Schedule Loaded");
 
+}
+  
   // // The raw Populate game schedule Magic -- Props to dmoore5050
   // // t-team s-schedule w-week g-game 0/1-Home/Away
   // for (var w = 0; w < s.length; w++) {
