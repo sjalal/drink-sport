@@ -129,6 +129,16 @@ function displayButton(x) {
 }
 
 function populateTeamTable(team) {
+  $(
+    "<table id='teamTable' class='table'><thead><tr>" +
+    "<th>#</th>" +
+    "<th>Team Name</th>" +
+    "<th>Wins</th>" +
+    "<th>losses</th>" +
+    "<th>Percent</th>" +
+    "</tr></thead><tbody></tbody>"
+  ).appendTo('#teamTable');
+
   for (var i = 0; i < team.length; i++) {
     $(
       "<tr>" +
@@ -142,7 +152,8 @@ function populateTeamTable(team) {
       "<td>" + team[i].wins + "</td>" +
       "<td>" + team[i].losses + "</td>" +
       "<td>" + team[i].wpc + "</td>" +
-      "</tr>").appendTo('#teamTable tbody');
+      "</tr>"
+    ).appendTo('#teamTable tbody');
   }
 }
 
