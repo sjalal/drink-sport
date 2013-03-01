@@ -4,6 +4,7 @@ $(document).ready(function () {
   // $('form').form();
    $("input").tooltip();
 
+function getFromDatabase() {
   $('#teamList').empty();
   $('#teamTable tbody').empty();
   $('#signUpButton').empty();
@@ -38,10 +39,10 @@ $(document).ready(function () {
       populateGameSchedules(data);
 
       doPopovers();
-    
     }
   }); // end ajax
-};
+}; //end getFromDatabase
+
    $(".clear").click(function(){
     clearForm()
   });
@@ -259,9 +260,7 @@ function populateGameSchedules(t) {
     };
   };
   track("<i class='icon-calendar'></i>&nbsp;" + oe + " Schedule Loaded");
-<<<<<<< HEAD
-=======
-}
+};
   
   // // The raw Populate game schedule Magic -- Props to dmoore5050
   // // t-team s-schedule w-week g-game 0/1-Home/Away
@@ -296,7 +295,6 @@ var blankSchedule8 = [
 [ [1, 2], [3, 8], [4, 7], [5, 6] ]
 ];
 
-<<<<<<< HEAD
 function logGameOutcome() {
   var gameOutcome = {
     homeTeamId: $("#inputHomeTeamId").val(),
