@@ -113,7 +113,7 @@ function populateTeamList(team) {
       "Manager: " + team[i].mgrFirst + " " + team[i].mgrLast + "<br>" +
       "Phone: " + team[i].mgrPhone + "<br>" +
       "E-mail: " + team[i].mgrEmail + "<br>" +
-      "<a class='manage' onclick='deleteTeam(\"" + team[i].id + "\")'>Delete Team</a>" +
+      "<button class='btn btn-mini btn-danger manage' onclick='deleteTeam(\"" + team[i].id + "\")'>Delete Team</button>" +
       "</p>").appendTo('#teamList');
   };
 }
@@ -129,6 +129,16 @@ function displayButton(x) {
 }
 
 function populateTeamTable(team) {
+  $(
+    "<table id='teamTable' class='table'><thead><tr>" +
+    "<th>#</th>" +
+    "<th>Team Name</th>" +
+    "<th>Wins</th>" +
+    "<th>losses</th>" +
+    "<th>Percent</th>" +
+    "</tr></thead><tbody></tbody>"
+  ).appendTo('#teamTable');
+
   for (var i = 0; i < team.length; i++) {
     $(
       "<tr>" +
@@ -142,7 +152,8 @@ function populateTeamTable(team) {
       "<td>" + team[i].wins + "</td>" +
       "<td>" + team[i].losses + "</td>" +
       "<td>" + team[i].wpc + "</td>" +
-      "</tr>").appendTo('#teamTable tbody');
+      "</tr>"
+    ).appendTo('#teamTable tbody');
   }
 }
 
@@ -182,7 +193,7 @@ function populateGameSchedules(t) {
 
   // t-team s-schedule w-week g-game 0/1-Home/Away x,y,x,oe-variables to make odd schedules work
   for (var w = 0; w < s.length; w++) {
-    $("<table class='table table-striped'><thead><tr>" +
+    $("<table class='table'><thead><tr>" +
       "<th>Week " + (w + 1) + "</th>" +
       "<th>Matchup</th>" +
       "<th>Score</th>" +
@@ -193,7 +204,7 @@ function populateGameSchedules(t) {
       $("<tr>" +
         "<td>" + (g + y) + ":00 pm" + "</td>" +
         "<td>" + t[(s[w][g][0] - z)].name + " vs. " + t[(s[w][g][1] - z)].name + "</td>" +
-        "<td>" + "0-0 " + "<a class='manage'>Edit<span>" + "</a>" +
+        "<td>" + "0-0 " + "<button class='btn btn-mini manage'>Log Score</button>" + "</a>" +
         "</tr>").appendTo('tbody:last');
     };
     if (t.length % 2 === 1){
@@ -205,7 +216,6 @@ function populateGameSchedules(t) {
     };
   };
   track("<i class='icon-calendar'></i>&nbsp;" + oe + " Schedule Loaded");
-
 }
   
   // // The raw Populate game schedule Magic -- Props to dmoore5050
@@ -240,6 +250,31 @@ var blankSchedule8 = [
 [ [1, 3], [2, 4], [5, 8], [6, 7] ],
 [ [1, 2], [3, 8], [4, 7], [5, 6] ]
 ];
+
+function logGameOutcome() {
+  var gameOutcome = {
+    homeTeamId: $("#inputHomeTeamId").val(),
+    homeTeamScore: $("#inputHomeTeamScore").val(),
+    awayTeamId: $("#inputAwayTeamId").val(),
+    awayTeamScore: $("#inputAwayTeamScore").val(),
+    stamp: 0,
+    game: 0
+  };
+  $.ajax({
+    url: 'backliftapp/outcomes',
+    type: "POST",
+    dataType: "json",
+    data: gameOutcome,
+    success: function (data) {
+      track(
+        gameOutcome.stamp + ", game " + gameOutcome.game + " score: " +
+        gameOutcome.homeTeamScore + " - " + gameOutcome.awayTeamScore + " logged!"
+        );
+      //add clear score function
+    }
+  }); // end ajax
+}; // end log game outcome
+
 
 // reusable sort functions, and sort by any field
 // http://stackoverflow.com/questions/979256/how-to-sort-an-array-of-javascript-objects
