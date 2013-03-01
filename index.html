@@ -37,21 +37,53 @@
           <div class="span8 teams">
             <h3>Teams Playing this Year</h3>
               <div id="teamList">
-              <!-- This will be populated by function populateTeamList -->
+                <!-- This will be populated by function populateTeamList -->
               </div>
               <div id="signUpButton">
-              <!-- This will be populated by function displayButton -->
+                <!-- This will be populated by function displayButton -->
               </div>
+          </div>
+        </div>
+      </div>
+      <div class="standings">
+        <div class="row">
+          <!--Table-->
+          <div class="span2">
+            <img src="img/beer-icon.png"></img>
+          </div>
+          <div class="span8">
+            <h3>League Standings</h3>
+            <div id="teamTable">
+              <!-- This will be populated by function addTeamToTable() -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!--Games-->
+        <div class="span2">
+          <img src="img/beer-icon.png"></img>
+        </div>
+        <div class="span8">
+           <h3><span class="playing">Tenative </span>Game Schedules</h3>
+              <div id="gameSchedules">
+                <!-- will be populated by function populateGameSchedules() -->
+              </div>
+        </div>
+      </div>
+      <div class="row">
+        <!--footer-->
+        <div class="span8 offset2">
+          <hr>
+           <h5>CODE BY :: BACK ROW WWW.ARRIORS :: NSS/2013</h5>
 
-
-            <!-- Modal -->
+            <!-- Sign up modal -->
             <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-header grass">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="clearForm()">
                   <bold>close</bold>
                 </button>
                  <h3 id="myModalLabel">Bats, Beers & Brats</h3>
-
               </div>
               <div class="modal-body dirt">
                 <form class="form-horizontal">
@@ -101,41 +133,34 @@
                 <button id="clearForm" class="btn" onclick="clearForm()">Clear Form</button>
                 <button id="addTeam" class="btn" data-dismiss="modal" aria-hidden="true" onclick="addTeam()">Register Your Team</button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="standings">
-        <div class="row">
-          <!--Table-->
-          <div class="span2">
-            <img src="img/beer-icon.png"></img>
-          </div>
-          <div class="span8">
-            <h3>League Standings</h3>
-            <div id="teamTable">
-              <!-- This will be populated by function addTeamToTable() -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <!--Games-->
-        <div class="span2">
-          <img src="img/beer-icon.png"></img>
-        </div>
-        <div class="span8">
-           <h3><span class="playing">Tenative </span>Game Schedules</h3>
-              <div id="gameSchedules">
-                <!-- will be populated by function populateGameSchedules() -->
+            </div> <!-- end sign up modal -->
+     
+            <!--Add Scores Modal -->
+            <div id="scoreModal" class="modal hide fade">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Final Score: <span id="stamp"></span> <span id="round"></span> <span id="game"></span></h3>
               </div>
-        </div>
-      </div>
-      <div class="row">
-        <!--footer-->
-        <div class="span8 offset2 text-right">
-          <hr>
-           <h5>CODE BY :: BACK ROW WWW.ARRIORS :: NSS/2013</h5>
+              <div class="modal-body">
+                <form class="form-horizontal">
+                  <div class="control-group">
+                    <label id="inputHomeTeamScoreLabel" class="control-label">Home ID</label>
+                    <div class="controls">
+                      <input type="number" id="inputHomeTeamScore" class="input-mini">
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label id="inputAwayTeamScoreLabel" class="control-label">Away ID</label>
+                    <div class="controls">
+                      <input type="number" id="inputAwayTeamScore" class="input-mini">
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <a href="#" class="btn btn-primary" onclick="logGameOutcome()">commit -m "scores"</a>
+              </div>
+            </div><!--End Add Scores Modal -->
 
         </div>
       </div>

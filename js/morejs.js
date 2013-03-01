@@ -204,7 +204,8 @@ function populateGameSchedules(t) {
       $("<tr>" +
         "<td>" + (g + y) + ":00 pm" + "</td>" +
         "<td>" + t[(s[w][g][0] - z)].name + " vs. " + t[(s[w][g][1] - z)].name + "</td>" +
-        "<td>" + "0-0 " + "<button class='btn btn-mini manage'>Log Score</button>" + "</a>" +
+        "<td>" + "0-0 " + "<button class='btn btn-mini manage' onclick=\"logScoreModal(\'" + 
+          t[(s[w][g][0] - z)].name + "\', \'" + t[(s[w][g][0] - z)].id + "\', \'" + t[(s[w][g][1] - z)].name + "\', \'" + t[(s[w][g][1] - z)].name + "\', 'Week', \'" + w + "\', \'" + g + "\')\">Log em'</button>" + "</a>" +
         "</tr>").appendTo('tbody:last');
     };
     if (t.length % 2 === 1){
@@ -251,6 +252,21 @@ var blankSchedule8 = [
 [ [1, 2], [3, 8], [4, 7], [5, 6] ]
 ];
 
+function logScoreModal(htn, hti, atn, ati, stamp, round, game) {
+
+$('#scoreModal').modal('show');
+
+$("span[id='stamp']").text(stamp + " "); // category
+$("span[id='round']").text((parseInt(round)+1) + ", "); // +1 for base 0
+$("span[id='game']").text("Game " + game); // game of the round
+$("label[id='inputHomeTeamScoreLabel']").text(htn);
+$("label[id='inputAwayTeamScoreLabel']").text(atn);
+
+
+track("Data Passed: " + hti + ", " + ati + ", week " + s + ", game " + g);
+
+}
+
 function logGameOutcome() {
   var gameOutcome = {
     homeTeamId: $("#inputHomeTeamId").val(),
@@ -258,6 +274,7 @@ function logGameOutcome() {
     awayTeamId: $("#inputAwayTeamId").val(),
     awayTeamScore: $("#inputAwayTeamScore").val(),
     stamp: 0,
+    round: 0,
     game: 0
   };
   $.ajax({
