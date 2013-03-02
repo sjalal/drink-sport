@@ -1,53 +1,8 @@
-
-
 $(document).ready(function () {
   track("<i class='icon-file'></i> Document Ready");
   getFromDatabase();  
   // $('form').form();
    $("input").tooltip();
-
-   $("#login").click(function() {
-  track("<i class='icon-wrench'></i> You are now logged in");
-  $(".manage").css("display", "inline");
-});
-
-$("#addTeam").click(function(){
-  var team = {
-    name: $("#inputTeamName").val(),
-    mgrFirst: $("#inputMgrFirst").val(),
-    mgrLast: $("#inputMgrLast").val(),
-    mgrPhone: $("#inputMgrPhone").val(),
-    mgrEmail: $("#inputMgrEmail").val(),
-    mgrZip: $("inputMgrZip").val(),
-    sponsor: $("#inputSponsor").val(),
-    wins: 0,
-    losses: 0
-  };
-  $.ajax({
-    url: 'backliftapp/team',
-    type: "POST",
-    dataType: "json",
-    data: team,
-    success: function (data) {
-      track("<i class='icon-plus'></i> Team: " + team.name + " added!");
-      clearForm();
-      getFromDatabase();
-    }
-  }); // end ajax
-}); //end click
-
-$("body").on("click", ".clear", function() {
-  alert("click working");
-    clearForm();
-  });
-
-  function clearForm(){
-    $('#signupForm').each (function(){  
-    this.reset();
-   }); 
-  };
-
-  }); // end ready
 
 function getFromDatabase() {
   $('#teamList').empty();
@@ -88,6 +43,42 @@ function getFromDatabase() {
   }); // end ajax
 }; //end getFromDatabase
 
+   $(".clear").click(function(){
+    clearForm()
+  });
+
+$("#login").click(function() {
+  track("<i class='icon-wrench'></i> You are now logged in");
+  $(".manage").css("display", "inline");
+});
+
+$("#addTeam").click(function(){
+  var team = {
+    name: $("#inputTeamName").val(),
+    mgrFirst: $("#inputMgrFirst").val(),
+    mgrLast: $("#inputMgrLast").val(),
+    mgrPhone: $("#inputMgrPhone").val(),
+    mgrEmail: $("#inputMgrEmail").val(),
+    mgrZip: $("inputMgrZip").val(),
+    sponsor: $("#inputSponsor").val(),
+    wins: 0,
+    losses: 0
+  };
+  $.ajax({
+    url: 'backliftapp/team',
+    type: "POST",
+    dataType: "json",
+    data: team,
+    success: function (data) {
+      track("<i class='icon-plus'></i> Team: " + team.name + " added!");
+      clearForm();
+      getFromDatabase();
+    }
+  }); // end ajax
+}); //end click
+
+}); // end ready
+
 function deleteTeam(id) {
   var conf = confirm("Are you sure you want to delete this team?");
   if (conf == true) {
@@ -106,6 +97,12 @@ function deleteTeam(id) {
 function track(item) {
   $('#console').append(item + "<br>");
 };
+
+function clearForm(){
+    $('#signupForm').each (function(){  
+    this.reset();
+   }); 
+  };
 
 function startSeason() {
   $(".playing").css("display", "none");
@@ -210,8 +207,7 @@ function populateGameSchedules(t) {
       $("<tr>" +
         "<td>" + (g + y) + ":00 pm" + "</td>" +
         "<td>" + t[(s[w][g][0] - z)].name + " vs. " + t[(s[w][g][1] - z)].name + "</td>" +
-        "<td>" + "0-0 " + "<button class='btn btn-mini manage' onclick=\"logScoreModal(\'" + 
-          t[(s[w][g][0] - z)].name + "\', \'" + t[(s[w][g][0] - z)].id + "\', \'" + t[(s[w][g][1] - z)].name + "\', \'" + t[(s[w][g][1] - z)].name + "\', 'Week', \'" + w + "\', \'" + g + "\')\">Log em'</button>" + "</a>" +
+        "<td>" + "0-0 " + "<button class='btn btn-mini manage'>Log Score</button>" + "</a>" +
         "</tr>").appendTo('tbody:last');
     };
     if (t.length % 2 === 1){
@@ -258,21 +254,6 @@ var blankSchedule8 = [
 [ [1, 2], [3, 8], [4, 7], [5, 6] ]
 ];
 
-function logScoreModal(htn, hti, atn, ati, stamp, round, game) {
-
-$('#scoreModal').modal('show');
-
-$("span[id='stamp']").text(stamp + " "); // category
-$("span[id='round']").text((parseInt(round)+1) + ", "); // +1 for base 0
-$("span[id='game']").text("Game " + game); // game of the round
-$("label[id='inputHomeTeamScoreLabel']").text(htn);
-$("label[id='inputAwayTeamScoreLabel']").text(atn);
-
-
-track("Data Passed: " + hti + ", " + ati + ", week " + s + ", game " + g);
-
-};
-
 function logGameOutcome() {
   var gameOutcome = {
     homeTeamId: $("#inputHomeTeamId").val(),
@@ -280,7 +261,6 @@ function logGameOutcome() {
     awayTeamId: $("#inputAwayTeamId").val(),
     awayTeamScore: $("#inputAwayTeamScore").val(),
     stamp: 0,
-    round: 0,
     game: 0
   };
   $.ajax({
@@ -311,5 +291,5 @@ var sort_by = function (field, reverse, primer) {
             B = key(b);
         return (A < B ? -1 : (A > B ? 1 : 0)) * [1, -1][+ !! reverse];
     }
-};
+}
 
