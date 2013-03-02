@@ -79,46 +79,7 @@ $("#addTeam").click(function(){
 
 }); // end ready
 
-function getFromDatabase() {  
 
-  $('#teamList').empty();
-  $('#teamTable tbody').empty();
-  $('#signUpButton').empty();
-  $('#gameSchedules').empty();
-  track("<i class='icon-trash'></i> Cleared old data")
-
-  $.ajax({
-    url: 'backliftapp/team',
-    type: "GET",
-    dataType: "json",
-    success: function (data) {
-      track("<i class='icon-hdd'></i> Connected to database");
-      track("<i class='icon-download-alt'></i> Fresh data loaded");
-      
-      // add scheduleId and wpc to records
-      for (var i = 0; i < data.length; i++) {
-        data[i]['scheduleId'] = i + 1;
-        data[i]['wpc'] = (parseInt(data[i].wins)/(parseInt(data[i].wins)+parseInt(data[i].losses))).toFixed(3);
-      }
-
-      // Teams Playing This Year
-      populateTeamList(data);
-      displayButton(data.length);
-
-      // League Standings      
-      data.sort(sort_by('wpc', true, parseFloat));
-      track("<i class='icon-random'></i> Teams sorted");
-      populateTeamTable(data);
-    
-      // Game Schedules
-      data.sort(sort_by('scheduleId', false, parseFloat));
-      populateGameSchedules(data);
-
-      doPopovers();
-    
-    }
-  }); // end ajax
-};
 
 function deleteTeam(id) {
   var conf = confirm("Are you sure you want to delete this team?");
