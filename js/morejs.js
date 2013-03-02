@@ -4,6 +4,42 @@ $(document).ready(function () {
   // $('form').form();
    $("input").tooltip();
 
+$("#login").click(function() {
+  track("<i class='icon-wrench'></i> You are now logged in");
+  $(".manage").css("display", "inline");
+});
+
+$("#addTeam").click(function(){
+  var team = {
+    name: $("#inputTeamName").val(),
+    mgrFirst: $("#inputMgrFirst").val(),
+    mgrLast: $("#inputMgrLast").val(),
+    mgrPhone: $("#inputMgrPhone").val(),
+    mgrEmail: $("#inputMgrEmail").val(),
+    mgrZip: $("inputMgrZip").val(),
+    sponsor: $("#inputSponsor").val(),
+    wins: 0,
+    losses: 0
+  };
+  $.ajax({
+    url: 'backliftapp/team',
+    type: "POST",
+    dataType: "json",
+    data: team,
+    success: function (data) {
+      track("<i class='icon-plus'></i> Team: " + team.name + " added!");
+      clearForm();
+      getFromDatabase();
+    }
+  }); // end ajax
+}); //end click
+
+   $("body").on("click", ".clear", function(){
+    clearForm();
+  });
+
+}); // end ready
+
 function getFromDatabase() {
   $('#teamList').empty();
   $('#teamTable tbody').empty();
@@ -43,41 +79,11 @@ function getFromDatabase() {
   }); // end ajax
 }; //end getFromDatabase
 
-   $(".clear").click(function(){
-    clearForm()
-  });
-
-$("#login").click(function() {
-  track("<i class='icon-wrench'></i> You are now logged in");
-  $(".manage").css("display", "inline");
-});
-
-$("#addTeam").click(function(){
-  var team = {
-    name: $("#inputTeamName").val(),
-    mgrFirst: $("#inputMgrFirst").val(),
-    mgrLast: $("#inputMgrLast").val(),
-    mgrPhone: $("#inputMgrPhone").val(),
-    mgrEmail: $("#inputMgrEmail").val(),
-    mgrZip: $("inputMgrZip").val(),
-    sponsor: $("#inputSponsor").val(),
-    wins: 0,
-    losses: 0
+    function clearForm(){
+    $('#signupForm').each (function(){  
+    this.reset();
+   }); 
   };
-  $.ajax({
-    url: 'backliftapp/team',
-    type: "POST",
-    dataType: "json",
-    data: team,
-    success: function (data) {
-      track("<i class='icon-plus'></i> Team: " + team.name + " added!");
-      clearForm();
-      getFromDatabase();
-    }
-  }); // end ajax
-}); //end click
-
-}); // end ready
 
 function deleteTeam(id) {
   var conf = confirm("Are you sure you want to delete this team?");
@@ -98,11 +104,6 @@ function track(item) {
   $('#console').append(item + "<br>");
 };
 
-function clearForm(){
-    $('#signupForm').each (function(){  
-    this.reset();
-   }); 
-  };
 
 function startSeason() {
   $(".playing").css("display", "none");
@@ -194,6 +195,7 @@ function populateGameSchedules(t) {
     var y = 1;
     var z = 1;
   };
+
   // t-team s-schedule w-week g-game 0/1-Home/Away x,y,x,oe-variables to make odd schedules work
   for (var w = 0; w < s.length; w++) {
     $("<table class='table'><thead><tr>" +
@@ -207,7 +209,8 @@ function populateGameSchedules(t) {
       $("<tr>" +
         "<td>" + (g + y) + ":00 pm" + "</td>" +
         "<td>" + t[(s[w][g][0] - z)].name + " vs. " + t[(s[w][g][1] - z)].name + "</td>" +
-        "<td>" + "0-0 " + "<button class='btn btn-mini manage'>Log Score</button>" + "</a>" +
+        "<td>" + "0-0 " + "<button class='btn btn-mini manage' onclick=\"logScoreModal(\'" + 
+          t[(s[w][g][0] - z)].name + "\', \'" + t[(s[w][g][0] - z)].id + "\', \'" + t[(s[w][g][1] - z)].name + "\', \'" + t[(s[w][g][1] - z)].name + "\', 'Week', \'" + w + "\', \'" + g + "\')\">Log em'</button>" + "</a>" +
         "</tr>").appendTo('tbody:last');
     };
     if (t.length % 2 === 1){
@@ -291,5 +294,5 @@ var sort_by = function (field, reverse, primer) {
             B = key(b);
         return (A < B ? -1 : (A > B ? 1 : 0)) * [1, -1][+ !! reverse];
     }
-}
+};
 
