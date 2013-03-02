@@ -6,6 +6,49 @@ $(document).ready(function () {
   // $('form').form();
    $("input").tooltip();
 
+   $("#login").click(function() {
+  track("<i class='icon-wrench'></i> You are now logged in");
+  $(".manage").css("display", "inline");
+});
+
+$("#addTeam").click(function(){
+  var team = {
+    name: $("#inputTeamName").val(),
+    mgrFirst: $("#inputMgrFirst").val(),
+    mgrLast: $("#inputMgrLast").val(),
+    mgrPhone: $("#inputMgrPhone").val(),
+    mgrEmail: $("#inputMgrEmail").val(),
+    mgrZip: $("inputMgrZip").val(),
+    sponsor: $("#inputSponsor").val(),
+    wins: 0,
+    losses: 0
+  };
+  $.ajax({
+    url: 'backliftapp/team',
+    type: "POST",
+    dataType: "json",
+    data: team,
+    success: function (data) {
+      track("<i class='icon-plus'></i> Team: " + team.name + " added!");
+      clearForm();
+      getFromDatabase();
+    }
+  }); // end ajax
+}); //end click
+
+$("body").on("click", ".clear", function() {
+  alert("click working");
+    clearForm();
+  });
+
+  function clearForm(){
+    $('#signupForm').each (function(){  
+    this.reset();
+   }); 
+  };
+
+  }); // end ready
+
 function getFromDatabase() {
   $('#teamList').empty();
   $('#teamTable tbody').empty();
@@ -45,83 +88,6 @@ function getFromDatabase() {
   }); // end ajax
 }; //end getFromDatabase
 
-   $(".clear").click(function(){
-    clearForm()
-  });
-
-$("#login").click(function() {
-  track("<i class='icon-wrench'></i> You are now logged in");
-  $(".manage").css("display", "inline");
-});
-
-$("#addTeam").click(function(){
-  var team = {
-    name: $("#inputTeamName").val(),
-    mgrFirst: $("#inputMgrFirst").val(),
-    mgrLast: $("#inputMgrLast").val(),
-    mgrPhone: $("#inputMgrPhone").val(),
-    mgrEmail: $("#inputMgrEmail").val(),
-    mgrZip: $("inputMgrZip").val(),
-    sponsor: $("#inputSponsor").val(),
-    wins: 0,
-    losses: 0
-  };
-  $.ajax({
-    url: 'backliftapp/team',
-    type: "POST",
-    dataType: "json",
-    data: team,
-    success: function (data) {
-      track("<i class='icon-plus'></i> Team: " + team.name + " added!");
-      clearForm();
-      getFromDatabase();
-    }
-  }); // end ajax
-}); //end click
-
-}); // end ready
-
-function getFromDatabase() {  
-
-  $('#teamList').empty();
-  $('#teamTable tbody').empty();
-  $('#signUpButton').empty();
-  $('#gameSchedules').empty();
-  track("<i class='icon-trash'></i> Cleared old data")
-
-  $.ajax({
-    url: 'backliftapp/team',
-    type: "GET",
-    dataType: "json",
-    success: function (data) {
-      track("<i class='icon-hdd'></i> Connected to database");
-      track("<i class='icon-download-alt'></i> Fresh data loaded");
-      
-      // add scheduleId and wpc to records
-      for (var i = 0; i < data.length; i++) {
-        data[i]['scheduleId'] = i + 1;
-        data[i]['wpc'] = (parseInt(data[i].wins)/(parseInt(data[i].wins)+parseInt(data[i].losses))).toFixed(3);
-      }
-
-      // Teams Playing This Year
-      populateTeamList(data);
-      displayButton(data.length);
-
-      // League Standings      
-      data.sort(sort_by('wpc', true, parseFloat));
-      track("<i class='icon-random'></i> Teams sorted");
-      populateTeamTable(data);
-    
-      // Game Schedules
-      data.sort(sort_by('scheduleId', false, parseFloat));
-      populateGameSchedules(data);
-
-      doPopovers();
-    
-    }
-  }); // end ajax
-};
-
 function deleteTeam(id) {
   var conf = confirm("Are you sure you want to delete this team?");
   if (conf == true) {
@@ -140,12 +106,6 @@ function deleteTeam(id) {
 function track(item) {
   $('#console').append(item + "<br>");
 };
-
-function clearForm(){
-    $('#signupForm').each (function(){  
-    this.reset();
-   }); 
-  };
 
 function startSeason() {
   $(".playing").css("display", "none");
@@ -311,7 +271,7 @@ $("label[id='inputAwayTeamScoreLabel']").text(atn);
 
 track("Data Passed: " + hti + ", " + ati + ", week " + s + ", game " + g);
 
-}
+};
 
 function logGameOutcome() {
   var gameOutcome = {
@@ -351,5 +311,5 @@ var sort_by = function (field, reverse, primer) {
             B = key(b);
         return (A < B ? -1 : (A > B ? 1 : 0)) * [1, -1][+ !! reverse];
     }
-}
+};
 
