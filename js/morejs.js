@@ -194,7 +194,7 @@ function populateGameSchedules(t) {
     var x = 0;
     var y = 1;
     var z = 1;
-  };
+  }
 
   // t-team s-schedule w-week g-game 0/1-Home/Away x,y,x,oe-variables to make odd schedules work
   for (var w = 0; w < s.length; w++) {
@@ -222,7 +222,7 @@ function populateGameSchedules(t) {
     };
   };
   track("<i class='icon-calendar'></i>&nbsp;" + oe + " Schedule Loaded");
-};
+}
   
   // // The raw Populate game schedule Magic -- Props to dmoore5050
   // // t-team s-schedule w-week g-game 0/1-Home/Away
@@ -256,6 +256,21 @@ var blankSchedule8 = [
 [ [1, 3], [2, 4], [5, 8], [6, 7] ],
 [ [1, 2], [3, 8], [4, 7], [5, 6] ]
 ];
+
+function logScoreModal(htn, hti, atn, ati, stamp, round, game) {
+
+$('#scoreModal').modal('show');
+
+$("span[id='stamp']").text(stamp + " "); // category
+$("span[id='round']").text((parseInt(round)+1) + ", "); // +1 for base 0
+$("span[id='game']").text("Game " + game); // game of the round
+$("label[id='inputHomeTeamScoreLabel']").text(htn);
+$("label[id='inputAwayTeamScoreLabel']").text(atn);
+
+
+track("Data Passed: " + hti + ", " + ati + ", week " + s + ", game " + g);
+
+};
 
 function logGameOutcome() {
   var gameOutcome = {
