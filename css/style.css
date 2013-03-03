@@ -4,14 +4,14 @@
 .manage {
     display:none;
 }
-/*
+
 .playing {
     display:inline;
 }
 
 .standings {
     display:none;
-} */
+} 
 
 .show{
     cursor: pointer;
@@ -19,6 +19,13 @@
 
 .teams .more {
     padding-left: 25px;
+}
+
+.modal-mini {
+    /* new custom width */
+    width: 400px;
+    /* must be half of the width, minus scrollbar on the left (30px) */
+    margin-left: -200px;
 }
 
 /*
