@@ -16,8 +16,8 @@
       <div class="row">
         <!--banner-->
         <div class="span2 pull-right text-right">
-          <a class="btn" onclick="manage()">Secure login</a>
-          <a class="btn manage" onclick="startSeason()">startSeason()</a>
+          <a onclick="manage()">Secure login</a> <br>
+          <a class="manage" onclick="resetSeason()">resetSeason()</a> <br>
         </div>
         <div class="span8 offset2">
            <h1>Booze and Sports league</h1>
@@ -136,29 +136,36 @@
             </div> <!-- end sign up modal -->
      
             <!--Add Scores Modal -->
-            <div id="scoreModal" class="modal hide fade">
+            <div id="scoreModal" class="modal modal-mini hide fade">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>Final Score: <span id="stamp"></span> <span id="round"></span> <span id="game"></span></h3>
+                <h3>Final Score: <span id="stamp"></span>&nbspPlay</h3>
               </div>
               <div class="modal-body">
                 <form class="form-horizontal">
+
+                  <input id="passStamp"  type="hidden" value="">
+                  <input id="passWhen" type="hidden" value="">
+                  <input id="passGame" type="hidden" value="">
+                  <input id="passHomeId" type="hidden" value="">
+                  <input id="passAwayId" type="hidden" value="">
+
                   <div class="control-group">
-                    <label id="inputHomeTeamScoreLabel" class="control-label">Home ID</label>
+                    <label id="homeTeamLabel" class="control-label">Home Name</label>
                     <div class="controls">
-                      <input type="number" id="inputHomeTeamScore" class="input-mini">
+                      <input id="inputHomeTeamScore" type="number" class="input-mini">
                     </div>
                   </div>
                   <div class="control-group">
-                    <label id="inputAwayTeamScoreLabel" class="control-label">Away ID</label>
+                    <label id="awayTeamLabel" class="control-label">Away Name</label>
                     <div class="controls">
-                      <input type="number" id="inputAwayTeamScore" class="input-mini">
+                      <input id="inputAwayTeamScore" type="number" class="input-mini">
                     </div>
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
-                <a href="#" class="btn btn-primary" onclick="logGameOutcome()">commit -m "scores"</a>
+                <a data-dismiss="modal" aria-hidden="true" class="btn" onclick="logGameOutcome()">commit -m "scores"</a>
               </div>
             </div><!--End Add Scores Modal -->
 

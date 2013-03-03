@@ -6,7 +6,7 @@ $(document).ready(function () {
 function getFromDatabase() {  
 
   $('#teamList').empty();
-  $('#teamTable tbody').empty();
+  $('#teamTable').empty();
   $('#signUpButton').empty();
   $('#gameSchedules').empty();
   track("<i class='icon-trash'></i> Cleared old data")
@@ -16,13 +16,22 @@ function getFromDatabase() {
     type: "GET",
     dataType: "json",
     success: function (data) {
-      track("<i class='icon-hdd'></i> Connected to database");
       track("<i class='icon-download-alt'></i> Fresh data loaded");
       
       // add scheduleId and wpc to records
       for (var i = 0; i < data.length; i++) {
         data[i]['scheduleId'] = i + 1;
-        data[i]['wpc'] = (parseInt(data[i].wins)/(parseInt(data[i].wins)+parseInt(data[i].losses))).toFixed(3);
+        // fix for NAN in win Percent Calculation
+        if (data[i].wins === "0" && data[i].losses === "0") {
+          data[i]['wpc'] = "<span class='muted'>-NGP-</span>";
+        } else {
+          data[i]['wpc'] = (parseFloat(data[i].wins)/(parseFloat(data[i].wins)+parseFloat(data[i].losses))).toFixed(3);
+        }
+      }
+
+      //start season logic
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].wins > 0) { startSeason(); }
       }
 
       // Teams Playing This Year
@@ -102,7 +111,7 @@ function manage() {
 function startSeason() {
   $(".playing").css("display", "none");
   $(".standings").css("display", "inline");
-  track("<i class='icon-warning-sign'></i>  Season Started!")
+  track("<i class='icon-warning-sign'></i>  Event Season Triggerd!")
 }
 
 function populateTeamList(team) {
@@ -204,8 +213,9 @@ function populateGameSchedules(t) {
       $("<tr>" +
         "<td>" + (g + y) + ":00 pm" + "</td>" +
         "<td>" + t[(s[w][g][0] - z)].name + " vs. " + t[(s[w][g][1] - z)].name + "</td>" +
-        "<td>" + "0-0 " + "<button class='btn btn-mini manage' onclick=\"logScoreModal(\'" + 
-          t[(s[w][g][0] - z)].name + "\', \'" + t[(s[w][g][0] - z)].id + "\', \'" + t[(s[w][g][1] - z)].name + "\', \'" + t[(s[w][g][1] - z)].name + "\', 'Week', \'" + w + "\', \'" + g + "\')\">Log em'</button>" + "</a>" +
+        "<td>" + "0-0 " + 
+        // the button that passes all the data
+          "<button class='btn btn-mini btn-primary manage' onclick=\"logScoreModal(\'" + t[(s[w][g][0] - z)].name + "\', \'" + t[(s[w][g][0] - z)].id + "\', \'" + t[(s[w][g][1] - z)].name + "\', \'" + t[(s[w][g][1] - z)].id + "\', 'Season', \'" + w + "\', \'" + g + "\')\">Log em'</button>" +
         "</tr>").appendTo('tbody:last');
     };
     if (t.length % 2 === 1){
@@ -252,30 +262,32 @@ var blankSchedule8 = [
 [ [1, 2], [3, 8], [4, 7], [5, 6] ]
 ];
 
-function logScoreModal(htn, hti, atn, ati, stamp, round, game) {
-
-$('#scoreModal').modal('show');
-
-$("span[id='stamp']").text(stamp + " "); // category
-$("span[id='round']").text((parseInt(round)+1) + ", "); // +1 for base 0
-$("span[id='game']").text("Game " + game); // game of the round
-$("label[id='inputHomeTeamScoreLabel']").text(htn);
-$("label[id='inputAwayTeamScoreLabel']").text(atn);
-
-
-track("Data Passed: " + hti + ", " + ati + ", week " + s + ", game " + g);
-
+// stamp-week, tournament or other cat of game. when-when it happend, week x, round x. game-the game in the order of the when x
+// stamp and when are probably confusing, its a way to be hyper specific about tracking when the game happend 
+function logScoreModal(htn, hti, atn, ati, stamp, when, game) {
+  //launch modal
+  $('#scoreModal').modal('show');
+  //set text on page
+  $("span[id='stamp']").text(stamp);
+  $("label[id='homeTeamLabel']").text(htn);
+  $("label[id='awayTeamLabel']").text(atn);
+  //pass hidden values
+  $("#passStamp").val(stamp);
+  $("#passWhen").val(when);
+  $("#passGame").val(game);
+  $("#passHomeId").val(hti);
+  $("#passAwayId").val(ati);
 }
 
 function logGameOutcome() {
   var gameOutcome = {
-    homeTeamId: $("#inputHomeTeamId").val(),
+    stamp: $("#passStamp").val(),
+    when: $("#passWhen").val(),
+    game: $("#passGame").val(),
+    homeTeamId: $("#passHomeId").val(),
+    awayTeamId: $("#passAwayId").val(),
     homeTeamScore: $("#inputHomeTeamScore").val(),
-    awayTeamId: $("#inputAwayTeamId").val(),
     awayTeamScore: $("#inputAwayTeamScore").val(),
-    stamp: 0,
-    round: 0,
-    game: 0
   };
   $.ajax({
     url: 'backliftapp/outcomes',
@@ -283,14 +295,80 @@ function logGameOutcome() {
     dataType: "json",
     data: gameOutcome,
     success: function (data) {
-      track(
-        gameOutcome.stamp + ", game " + gameOutcome.game + " score: " +
-        gameOutcome.homeTeamScore + " - " + gameOutcome.awayTeamScore + " logged!"
-        );
-      //add clear score function
+      
+      if (gameOutcome.homeTeamScore > gameOutcome.awayTeamScore) {
+        increment(gameOutcome.homeTeamId, "wins", "1");
+        increment(gameOutcome.awayTeamId, "losses", "1");
+      } else if (gameOutcome.homeTeamScore < gameOutcome.awayTeamScore) {
+        increment(gameOutcome.homeTeamId, "losses", "1");
+        increment(gameOutcome.awayTeamId, "wins", "1");
+      } else if (gameOutcome.homeTeamScore === gameOutcome.awayTeamScore) {
+        increment(gameOutcome.homeTeamId, "wins", ".5");
+        increment(gameOutcome.homeTeamId, "losses", ".5");
+        increment(gameOutcome.awayTeamId, "wins", ".5");
+        increment(gameOutcome.awayTeamId, "losses", ".5");   
+      }
+
+      // Clear Imput Fields
+      $("#inputHomeTeamScore").val("");
+      $("#inputAwayTeamScore").val("");
+
     }
   }); // end ajax
 }; // end log game outcome
+
+
+function increment(id, key, amt) {
+  $.ajax({
+    url: 'backliftapp/team/' + id,
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+      if (key === "wins") {        
+        $.ajax({ url: 'backliftapp/team/'+id, type: "PUT", data: {wins: parseFloat(data.wins)+parseFloat(amt)}, dataType: "json", });
+      } else if (key === "losses") {
+        $.ajax({ url: 'backliftapp/team/'+id, type: "PUT", data: {losses: parseFloat(data.losses)+parseFloat(amt)}, dataType: "json", });
+      }
+    } // end sucess
+  }); // end get ajax
+} // end increment function
+
+
+function resetSeason() {
+  var conf = confirm("Are you sure you want to clear all scores");
+  if (conf == true) {
+    
+    $.ajax({ // reset all win/loss numbers
+      url: 'backliftapp/team',
+      type: "GET",
+      dataType: "json",
+      success: function (data) {
+        for (i = 0; i < data.length; i++) { // clear wins/losses record by record
+          $.ajax({ url: "backliftapp/team/"+data[i].id, type: "PUT", data: {wins: "0", losses: "0"}, dataType: "json", });
+        } // end for loop
+        track("<i class='icon-refresh'></i> Reset Wins and Losses");
+
+        $.ajax({ // Get outcome data then clear all scores from database
+          url: 'backliftapp/outcomes',
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+            for (i = 0; i < data.length; i++) { // clear each score record by record
+              $.ajax({ url: "backliftapp/outcomes/"+data[i].id, type: "DELETE", dataType: "json", });
+            } // end for loop
+            track("<i class='icon-fire'></i> Torched all the scores");
+
+            // Reset view of page and get new clean data from database
+            $(".playing").css("display", "inline");
+            $(".standings").css("display", "none");
+            getFromDatabase();
+
+          } // end clear scores sucess
+        }); // end inner ajax 
+      } // end reset wins loss sucess
+    }); // end outer ajax
+  } // end if confirm 
+} // end resetSeason()
 
 
 // reusable sort functions, and sort by any field
