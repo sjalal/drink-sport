@@ -8,6 +8,7 @@
     <link href="css/style.css" rel="stylesheet">
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.validate.js"></script>
     <script src="js/morejs.js"></script>
   </head>
   
@@ -78,6 +79,7 @@
            <h5>CODE BY :: BACK ROW WWW.ARRIORS :: NSS/2013</h5>
 
             <!-- Sign up modal -->
+        <form class="form-horizontal" id="signupForm">
          <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header grass">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="clearForm()">
@@ -86,56 +88,55 @@
                  <h3 id="myModalLabel">Bats, Beers & Brats</h3>
             </div>
           <div class="modal-body dirt">
-                <form class="form-horizontal" id="signupForm">
                  <div class="control-group">
                     <label class="control-label">Team name</label>
                   <div class="controls">
-                      <input type="text" id="inputTeamName" class="teamImput" required="required" placeholder="Keep it clean, please!">
+                      <input type="text" name="teamName" id="inputTeamName" class="teamImput" placeholder="Keep it clean, please!">
                     </div>
                   </div>
                   <div class="control-group">
                     <label class="control-label">Manager's name</label>
                   <div class="controls">
-                      <input type="text" id="inputMgrFirst" class="teamImput" required="required" placeholder="First">
+                      <input type="text" name="mgrFirst" id="inputMgrFirst" class="teamImput" placeholder="First">
                     </div>
                     <br>
                   <div class="controls">
-                      <input type="text" id="inputMgrLast" class="teamImput" required="required" placeholder="Last">
+                      <input type="text" name="mgrLast" id="inputMgrLast" class="teamImput" placeholder="Last">
                     </div>
                   </div>
                  <div class="control-group">
                     <label class="control-label">Manager's phone</label>
                   <div class="controls">
-                      <input type="tel" id="inputMgrPhone" class="teamImput" required="required" placeholder="xxx-xxx-xxxx">
+                      <input type="text" name="mgrPhone" id="inputMgrPhone" class="teamImput" placeholder="xxx-xxx-xxxx">
                     </div>
                   </div>
                  <div class="control-group">
                     <label class="control-label">Manager's email</label>
                   <div class="controls">
-                      <input type="email" id="inputMgrEmail" class="teamImput" required="required" placeholder="">
+                      <input type="email" name="email" id="inputMgrEmail" class="teamImput email" placeholder="">
                     </div>
                   </div>
                 <div class="control-group">
                     <label class="control-label">Manager's zipcode</label>
                 <div class="controls">
-                      <input type="text" data-type="digits" id="inputMgrZip" class="teamImput" required="required" placeholder="">
+                      <input type="text" name="zip" id="inputMgrZip" class="teamImput digits" placeholder="">
                     </div>
                   </div>
                  <div class="control-group">
                     <label class="control-label">Team sponsor</label>
                   <div class="controls">
-                      <input type="text" id="inputSponsor" class="teamImput" required="required" placeholder="">
+                      <input type="text" name="sponsor" id="inputSponsor" class="teamImput" placeholder="">
                     </div>
                   </div> 
             </div><!-- modal body end -->
             <div class="modal-footer grass form-actions">
-                <button class="btn clear">Clear Form</button>
-                <button id="addTeam" type="submit" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Register Your Team</button>
+                <button type="reset" class="btn clear">Clear Form</button>
+                <button id="addTeam" type="submit" class="btn btn-primary">Register Your Team</button>
                 <input type="reset" class="btn clear" data-dismiss="modal" aria-hidden="true" value="Cancel">
             </div>  <!-- footer end -->
-        </form> <!-- form end -->
       </div> <!-- modal end -->
-     
+        </form> <!-- form ends after modal to make validation work in modal -->
+
             <!--Add Scores Modal -->
             <div id="scoreModal" class="modal hide fade">
               <div class="modal-header">
