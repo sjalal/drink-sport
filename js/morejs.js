@@ -157,7 +157,7 @@ function track(item) {
 function startSeason() {
   $(".playing").css("display", "none");
   $(".standings").css("display", "inline");
-  track("<i class='icon-warning-sign'></i>  Event Season Triggerd!")
+  track("<i class='icon-warning-sign'></i>  Event Season Triggered!")
 };
 
 function populateTeamList(team) {

@@ -48,7 +48,7 @@ form h3 {
     background-image: url("../img/dirt.jpg");
 }
           
-form {
+#signupForm {
     color: white;
     font-size: 110%;
     font-weight: bold;
