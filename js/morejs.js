@@ -46,7 +46,7 @@ var validator = $("#signupForm").validate({
 
 $("#addTeam").click(function(){
     if($('#signupForm').valid() == true){
-  addTeamToDatabase();
+  addTeam();
   $("#myModal").modal('hide');
 }
 return false;
@@ -58,7 +58,7 @@ $("#login").click(function() {
   $(".manage").css("display", "inline");
 });
 
-function addTeamToDatabase(){
+function addTeam() {
   var team = {
     name: $("#inputTeamName").val(),
     mgrFirst: $("#inputMgrFirst").val(),
@@ -81,7 +81,7 @@ function addTeamToDatabase(){
       getFromDatabase();
     }
   }); // end ajax
-}; 
+};  //end add team
 
    $("body").on("click", ".clear", function(){
     clearForm();
@@ -91,6 +91,7 @@ function addTeamToDatabase(){
 }); // end ready
 
 function getFromDatabase() {
+
   $('#teamList').empty();
   $('#teamTable').empty();
   $('#signUpButton').empty();
@@ -134,15 +135,10 @@ function getFromDatabase() {
       populateGameSchedules(data);
 
       doPopovers();
+
     }
   }); // end ajax
 }; //end getFromDatabase
-
-    function clearForm(){
-    $('#signupForm').each (function(){  
-    this.reset();
-   }); 
-  };
 
 function deleteTeam(id) {
   var conf = confirm("Are you sure you want to delete this team?");
@@ -157,11 +153,23 @@ function deleteTeam(id) {
       }
     });
   }
-};
+}
 
 function track(item) {
   $('#console').append(item + "<br>");
 };
+
+function clearForm(){
+    $('#signupForm').each (function(){  
+        this.reset();
+   }); 
+  };
+
+  function startSeason() {
+  $(".playing").css("display", "none");
+  $(".standings").css("display", "inline");
+  track("<i class='icon-warning-sign'></i>  Event Season Triggerd!")
+}
 
 function populateTeamList(team) {
   for (var i = 0; i < team.length; i++) {
@@ -234,7 +242,7 @@ function populateGameSchedules(t) {
   } else {
     $('<p class="text-error">There is not a schedule for the current amount of teams<p>').appendTo('#gameSchedules');
     return; // dump from function
-  };
+  }
 
   if (t.length % 2 === 1) {
     var oe = "Odd";
@@ -342,7 +350,7 @@ function logScoreModal(htn, hti, atn, ati, stamp, when, game) {
   $("#passGame").val(game);
   $("#passHomeId").val(hti);
   $("#passAwayId").val(ati);
-};
+}
 
 function logGameOutcome() {
   var gameOutcome = {
@@ -388,6 +396,7 @@ function logGameOutcome() {
   }); // end ajax
 }; // end log game outcome
 
+
 function increment(id, key, amt) {
   $.ajax({
     url: 'backliftapp/team/' + id,
@@ -403,6 +412,7 @@ function increment(id, key, amt) {
     } // end sucess
   }); // end get ajax
 } // end increment function
+
 
 function resetSeason() {
   var conf = confirm("Are you sure you want to clear all scores");
@@ -454,5 +464,4 @@ var sort_by = function (field, reverse, primer) {
             B = key(b);
         return (A < B ? -1 : (A > B ? 1 : 0)) * [1, -1][+ !! reverse];
     }
-};
-
+}
