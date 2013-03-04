@@ -81,4 +81,13 @@ margin: -3px 0 0 0;
     font-size: 120%;
 }
 
+label.error {
+    font-style: italic;
+    text-shadow: 
+    -1px -1px 0 #000,
+         4px -1px 0 #000,
+        -1px  1px 0 #000,
+         4px  1px 0 #000;
+}
+
 

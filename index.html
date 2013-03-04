@@ -16,8 +16,8 @@
       <div class="row">
         <!--banner-->
         <div class="span2 pull-right text-right">
-          <a class="btn" id="login">Secure login</a>
-          <a class="btn manage" onclick="startSeason()">startSeason()</a>
+          <a id="login">Secure login</a>
+          <a class="manage" onclick="resetSeason()">resetSeason()</a>
         </div>
         <div class="span8 offset2">
            <h1>Booze and Sports league</h1>
@@ -145,13 +145,13 @@
               <div class="modal-body">
                 <form class="form-horizontal">
                   <div class="control-group">
-                    <label id="inputHomeTeamScoreLabel" class="control-label">Home ID</label>
+                    <label id="homeTeamLabel" class="control-label">Home ID</label>
                     <div class="controls">
                       <input type="number" id="inputHomeTeamScore" class="input-mini">
                     </div>
                   </div>
                   <div class="control-group">
-                    <label id="inputAwayTeamScoreLabel" class="control-label">Away ID</label>
+                    <label id="awayTeamLabel" class="control-label">Away ID</label>
                     <div class="controls">
                       <input type="number" id="inputAwayTeamScore" class="input-mini">
                     </div>

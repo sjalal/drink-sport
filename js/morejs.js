@@ -163,13 +163,6 @@ function track(item) {
   $('#console').append(item + "<br>");
 };
 
-
-function startSeason() {
-  $(".playing").css("display", "none");
-  $(".standings").css("display", "inline");
-  track("<i class='icon-warning-sign'></i>  Event Season Triggered!")
-};
-
 function populateTeamList(team) {
   for (var i = 0; i < team.length; i++) {
     $(
