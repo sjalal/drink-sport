@@ -1,15 +1,54 @@
 $(document).ready(function () {
   track("<i class='icon-file'></i> Document Ready");
   getFromDatabase();  
-  // $('form').form();
-   $("input").tooltip();
+$('#myModal').on('shown', function () {
+    $("#signupForm :text:first").focus();
+});
+
+var validator = $("#signupForm").validate({
+       rules: {
+        teamName: 'required',
+        mgrFirst : "required",
+        mgrLast : "required",
+        mgrPhone : {
+              required : true,
+              minlength : 12
+          },
+        email : "required",
+        zip: {
+              required : true,
+              digits : true,
+              minlength : 5,
+              maxlength : 5
+          },
+        sponsor : "required",
+        }, //end of rules
+       messages: {
+        mgrPhone : {
+          minlength : "Make sure you entered a 10-digit number."
+       },
+        zip : {
+          minlength : "Make sure you entered a 5 digit zipcode.",
+          maxlength : "Make sure you entered a 5 digit zipcode."
+      }
+    }, //end messages
+}); //end validate
+
+$("#addTeam").click(function(){
+    if($('#signupForm').valid() == true){
+  addTeamToDatabase();
+  $("#myModal").modal('hide');
+}
+return false;
+
+}); //end click
 
 $("#login").click(function() {
   track("<i class='icon-wrench'></i> You are now logged in");
   $(".manage").css("display", "inline");
 });
 
-$("#addTeam").click(function(){
+function addTeamToDatabase(){
   var team = {
     name: $("#inputTeamName").val(),
     mgrFirst: $("#inputMgrFirst").val(),
@@ -32,10 +71,11 @@ $("#addTeam").click(function(){
       getFromDatabase();
     }
   }); // end ajax
-}); //end click
+}; 
 
    $("body").on("click", ".clear", function(){
     clearForm();
+    validator.resetForm();
   });
 
 }); // end ready
