@@ -259,11 +259,9 @@ function populateGameSchedules(t) {
       "</tbody></table>").appendTo('#gameSchedules');
     for (var g = x; g < s[w].length; g++) {
       $("<tr>" +
-        "<td>" + (g + y) + ":00 pm" + "</td>" +
+        "<td>" + "Game " + (g + y) + "</td>" +
         "<td>" + t[(s[w][g][0] - z)].name + " vs. " + t[(s[w][g][1] - z)].name + "</td>" +
-        "<td>" + "0-0 " + 
-        // the button that passes all the data
-          "<button class='btn btn-mini btn-primary manage' onclick=\"logScoreModal(\'" + t[(s[w][g][0] - z)].name + "\', \'" + t[(s[w][g][0] - z)].id + "\', \'" + t[(s[w][g][1] - z)].name + "\', \'" + t[(s[w][g][1] - z)].id + "\', 'Season', \'" + w + "\', \'" + g + "\')\">Log em'</button>" +
+        "<td>" + scoreOrTime( t[(s[w][g][0] - z)].name, t[(s[w][g][0] - z)].id, t[(s[w][g][1] - z)].name, t[(s[w][g][1] - z)].id, 'Season', w, g, (g+y) ) + "</td>" +
         "</tr>").appendTo('tbody:last');
     };
     if (t.length % 2 === 1){
@@ -277,14 +275,33 @@ function populateGameSchedules(t) {
   track("<i class='icon-calendar'></i>&nbsp;" + oe + " Schedule Loaded");
 }
   
-  // // The raw Populate game schedule Magic -- Props to dmoore5050
-  // // t-team s-schedule w-week g-game 0/1-Home/Away
-  // for (var w = 0; w < s.length; w++) {
-  //   $("Week " + (w+1) + " Schedule<br>").appendTo('#gameSchedules');
-  //   for (var g = 0; g < s[w].length; g++) {
-  //     $(  t[s[w][g][0]].name + " vs. " + t[s[w][g][1]].name + "<br>").appendTo('#gameSchedules');
-  //   };
-  // };
+function scoreOrTime (htn, hti, atn, ati, stamp, when, game, time) {
+
+var sot = time + ":00 pm <button class='manage btn btn-mini' onclick=\"logScoreModal(\'" + htn +"\', \'"+ hti +"\', \'"+ atn +"\', \'"+ ati +"\', \'"+ stamp +"\', \'"+ when +"\', \'"+ game + "\')\">LogEm'</button>";
+
+  $.ajax({ // Get outcome data then check for match
+    url: 'backliftapp/outcomes',
+    type: "GET",
+    dataType: "json",
+    async: false,
+    success: function (data) {
+
+      if ( data.length > 0 ) {
+        // check each record for match
+        for (var i = 0; i<data.length; i++) {
+          if (data[i].homeTeamId == hti &&
+              data[i].awayTeamId == ati &&
+              data[i].stamp == stamp &&
+              data[i].when == when &&
+              data[i].game == game ) { 
+           sot = data[i].homeTeamScore + " - " + data[i].awayTeamScore;
+          }
+        } // end check all for loop 
+      } // end if
+    } // end sucess
+  }); // end Ajax
+return sot;
+} // end scoreOrTime()
 
 var blankSchedule4 = [ 
 [ [1, 4], [2, 3] ],

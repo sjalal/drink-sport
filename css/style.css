@@ -32,11 +32,22 @@
     margin-left: -200px;
 }
 
- #loading-indicator {
-   position: absolute;
-   left: 10px;
-   top: 10px;
- }
+
+/*body {
+    position: relative;
+    margin: 0;
+}*/
+
+#loading-indicator {
+    background:url(../img/loadingWal.png) no-repeat center;
+    position: absolute;
+    left: 0; right: 0;
+    top: 0; bottom: 0;
+    z-index: 1000;
+    background-color: #f8f8f8;
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
 
  form h3 {
     color: white;
