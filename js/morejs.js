@@ -1,5 +1,15 @@
 $(document).ready(function () {
   track("<i class='icon-file'></i> Document Ready");
+
+  // code to make loading icon show
+  $(document).ajaxSend(function(event, request, settings) {
+    $('#loading-indicator').show();
+  });
+  // code to make loading icon hide
+  $(document).ajaxComplete(function(event, request, settings) {
+    $('#loading-indicator').hide();
+  });
+
   getFromDatabase();  
 }); // end ready
 
@@ -296,6 +306,7 @@ function logGameOutcome() {
     data: gameOutcome,
     success: function (data) {
       
+      //this is the bit that assigns wins and losses
       if (gameOutcome.homeTeamScore > gameOutcome.awayTeamScore) {
         increment(gameOutcome.homeTeamId, "wins", "1");
         increment(gameOutcome.awayTeamId, "losses", "1");
@@ -313,6 +324,11 @@ function logGameOutcome() {
       $("#inputHomeTeamScore").val("");
       $("#inputAwayTeamScore").val("");
 
+      // wait a bit then refresh the page. Give a sec to allow the kids to finish.
+      window.setTimeout(function() {
+        getFromDatabase();
+      }, 250); // time in miliseconds
+
     }
   }); // end ajax
 }; // end log game outcome
@@ -323,6 +339,7 @@ function increment(id, key, amt) {
     url: 'backliftapp/team/' + id,
     type: "GET",
     dataType: "json",
+    async: false,
     success: function (data) {
       if (key === "wins") {        
         $.ajax({ url: 'backliftapp/team/'+id, type: "PUT", data: {wins: parseFloat(data.wins)+parseFloat(amt)}, dataType: "json", });
