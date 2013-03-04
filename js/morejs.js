@@ -262,20 +262,8 @@ var sot = time + ":00 pm <button class='manage btn btn-mini' onclick=\"logScoreM
       } // end if
     } // end sucess
   }); // end Ajax
-
 return sot;
-
 } // end scoreOrTime()
-
-
-  // // The raw Populate game schedule Magic -- Props to dmoore5050
-  // // t-team s-schedule w-week g-game 0/1-Home/Away
-  // for (var w = 0; w < s.length; w++) {
-  //   $("Week " + (w+1) + " Schedule<br>").appendTo('#gameSchedules');
-  //   for (var g = 0; g < s[w].length; g++) {
-  //     $(  t[s[w][g][0]].name + " vs. " + t[s[w][g][1]].name + "<br>").appendTo('#gameSchedules');
-  //   };
-  // };
 
 var blankSchedule4 = [ 
 [ [1, 4], [2, 3] ],
