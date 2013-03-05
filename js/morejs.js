@@ -132,7 +132,7 @@ function getFromDatabase() {
 
       doPopovers();
 
-       // code to make loading icon hide
+      // code to make loading icon hide
       $(document).ajaxComplete(function(event, request, settings) {
           $('#loading-indicator').hide();
       });
@@ -302,8 +302,19 @@ var sot = time + ":00 pm <button class='manage btn btn-mini' onclick=\"logScoreM
               data[i].stamp == stamp &&
               data[i].when == when &&
               data[i].game == game ) { 
-           sot = data[i].homeTeamScore + " - " + data[i].awayTeamScore;
+           
+          var hs = data[i].homeTeamScore;
+          var as = data[i].awayTeamScore;
+
+          if (hs < 0) {
+            hs = "<span class='text-error'>("+ hs +")</span>"
           }
+          if (as < 0) {
+            as = "<span class='text-error'>("+ as +")</span>"
+          }
+          sot = hs + " - " + as;
+          } // end if find match
+
         } // end check all for loop 
       } // end if
     } // end sucess
@@ -370,13 +381,13 @@ function logGameOutcome() {
     success: function (data) {
       
       //this is the bit that assigns wins and losses
-      if (gameOutcome.homeTeamScore > gameOutcome.awayTeamScore) {
+      if (parseFloat(gameOutcome.homeTeamScore) > parseFloat(gameOutcome.awayTeamScore)) {
         increment(gameOutcome.homeTeamId, "wins", "1");
         increment(gameOutcome.awayTeamId, "losses", "1");
-      } else if (gameOutcome.homeTeamScore < gameOutcome.awayTeamScore) {
+      } else if (parseFloat(gameOutcome.homeTeamScore) < parseFloat(gameOutcome.awayTeamScore)) {
         increment(gameOutcome.homeTeamId, "losses", "1");
         increment(gameOutcome.awayTeamId, "wins", "1");
-      } else if (gameOutcome.homeTeamScore === gameOutcome.awayTeamScore) {
+      } else if (parseFloat(gameOutcome.homeTeamScore) === parseFloat(gameOutcome.awayTeamScore)) {
         increment(gameOutcome.homeTeamId, "wins", ".5");
         increment(gameOutcome.homeTeamId, "losses", ".5");
         increment(gameOutcome.awayTeamId, "wins", ".5");
