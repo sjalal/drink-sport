@@ -1,20 +1,12 @@
 $(document).ready(function () {
   track("<i class='icon-file'></i> Document Ready");
 
-  // code to make loading icon show
-  $(document).ajaxSend(function(event, request, settings) {
-    $('#loading-indicator').show();
-  });
-  // code to make loading icon hide
-  $(document).ajaxComplete(function(event, request, settings) {
-    $('#loading-indicator').hide();
-  });
-
   getFromDatabase();  
 $('#myModal').on('shown', function () {
     $("#signupForm :text:first").focus();
 });
 
+//Begin validation courtesy of [jQuery Validation Plugin](http://bassistance.de/jquery-plugins/jquery-plugin-validation/) - Form validation made easy
 var validator = $("#signupForm").validate({
        rules: {
         teamName: 'required',
@@ -91,6 +83,10 @@ function addTeam() {
 }); // end ready
 
 function getFromDatabase() {
+    // code to make loading icon show
+  $(document).ajaxSend(function(event, request, settings) {
+    $('#loading-indicator').show();
+  });
 
   $('#teamList').empty();
   $('#teamTable').empty();
@@ -136,6 +132,10 @@ function getFromDatabase() {
 
       doPopovers();
 
+       // code to make loading icon hide
+      $(document).ajaxComplete(function(event, request, settings) {
+          $('#loading-indicator').hide();
+      });
     }
   }); // end ajax
 }; //end getFromDatabase
@@ -259,9 +259,9 @@ function populateGameSchedules(t) {
   // t-team s-schedule w-week g-game 0/1-Home/Away x,y,x,oe-variables to make odd schedules work
   for (var w = 0; w < s.length; w++) {
     $("<table class='table'><thead><tr>" +
-      "<th>Week " + (w + 1) + "</th>" +
-      "<th>Matchup</th>" +
-      "<th>Score</th>" +
+      "<th style='width: 20%'>Week " + (w + 1) + "</th>" +
+      "<th style='width: 60%'>Matchup</th>" +
+      "<th style='width: 20%'>Score</th>" +
       "</tr></thead><tbody>" +
         // will be populated by next for loop
       "</tbody></table>").appendTo('#gameSchedules');
