@@ -306,6 +306,7 @@ var sot = time + ":00 pm <button class='manage btn btn-mini' onclick=\"logScoreM
           var hs = data[i].homeTeamScore;
           var as = data[i].awayTeamScore;
 
+          // if scores negative then make red
           if (hs < 0) {
             hs = "<span class='text-error'>("+ hs +")</span>"
           }
