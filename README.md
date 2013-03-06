@@ -5,6 +5,7 @@ A joint collaboration by:
 Joe Shepherd
   and
 The guy with suspenders, Christopher Fryman
+Play with it live @ https://drinksport-3g3ez.backliftapp.com/
 
 Code repo for Nashvile Software School beer league project
 
@@ -21,7 +22,7 @@ Phases 1 and 2:
 - Once the list reaches 8 teams, the button changes again to a dummy and user cannot enter new teams.
 - User can click on a team and manager info will appear.
 - User can login (for now, you just click the "secure login" link) and:
-  A "Delete Team" button appears at end of manager info. 
+  A "Delete Team" button appears at end of manager info.
   A "LogEm" button appears in the schedules for adding scores (This also begins the season, locking out 
   the addition of new teams).
 - Adding scores calculates winning percentage for the teams and updates/sorts the league list with a table of 
