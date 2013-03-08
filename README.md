@@ -28,3 +28,4 @@ Phases 1 and 2:
 - Adding scores calculates winning percentage for the teams and updates/sorts the league list with a table of 
   each team's wins and losses and winning percentage. The team with the highest winning percentage is listed first.
   The scores also appear in the schedule table in place of the scheduled game time. 
+- Fixed sorting bug and No ties and No negative scores functionality
