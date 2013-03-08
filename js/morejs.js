@@ -106,9 +106,11 @@ function getFromDatabase() {
         data[i]['scheduleId'] = i + 1;
         // fix for NAN in win Percent Calculation
         if (data[i].wins === "0" && data[i].losses === "0") {
-          data[i]['wpc'] = "<span class='muted'>-NGP-</span>";
+          data[i]['wpc'] = parseFloat(0.000).toFixed(3).replace(/^0+/,'');
         } else {
-          data[i]['wpc'] = (parseFloat(data[i].wins)/(parseFloat(data[i].wins)+parseFloat(data[i].losses))).toFixed(3);
+          data[i]['wpc'] = (parseFloat(data[i].wins)/(parseFloat(data[i].wins)+parseFloat(data[i].losses))).toFixed(3).replace(/^0+/,'');
+          // data[i]['losses']=data[i].losses; // re-factored
+          // data[i]['wins']=data[i].wins; // re-factored
         }
       }
 
@@ -122,6 +124,8 @@ function getFromDatabase() {
       displayButton(data.length);
 
       // League Standings      
+      data.sort(sort_by('wins', true, parseFloat)); // re-factored
+      data.sort(sort_by('losses', false, parseFloat)); // re-factored
       data.sort(sort_by('wpc', true, parseFloat));
       track("<i class='icon-random'></i> Teams sorted");
       populateTeamTable(data);
@@ -374,6 +378,27 @@ function logGameOutcome() {
     homeTeamScore: $("#inputHomeTeamScore").val(),
     awayTeamScore: $("#inputAwayTeamScore").val(),
   };
+
+if (parseFloat(gameOutcome.homeTeamScore) === parseFloat(gameOutcome.awayTeamScore)) {
+    alert("Warning!!! No ties please correct the score");
+      // Clear Imput Fields
+      $("#inputHomeTeamScore").val("");
+      $("#inputAwayTeamScore").val("");
+      
+      window.setTimeout(function() {
+        getFromDatabase();
+      }, 250); // time in miliseconds 
+        // return false;    
+      } else if (parseFloat(gameOutcome.homeTeamScore) < 0 || parseFloat(gameOutcome.awayTeamScore) < 0) {
+    alert("Warning!!! No negative score allowed!!!");
+      // Clear Imput Fields
+      $("#inputHomeTeamScore").val("");
+      $("#inputAwayTeamScore").val("");
+      
+      window.setTimeout(function() {
+        getFromDatabase();
+      }, 250); // time in miliseconds{
+} else { 
   $.ajax({
     url: 'backliftapp/outcomes',
     type: "POST",
@@ -388,13 +413,8 @@ function logGameOutcome() {
       } else if (parseFloat(gameOutcome.homeTeamScore) < parseFloat(gameOutcome.awayTeamScore)) {
         increment(gameOutcome.homeTeamId, "losses", "1");
         increment(gameOutcome.awayTeamId, "wins", "1");
-      } else if (parseFloat(gameOutcome.homeTeamScore) === parseFloat(gameOutcome.awayTeamScore)) {
-        increment(gameOutcome.homeTeamId, "wins", ".5");
-        increment(gameOutcome.homeTeamId, "losses", ".5");
-        increment(gameOutcome.awayTeamId, "wins", ".5");
-        increment(gameOutcome.awayTeamId, "losses", ".5");   
-      }
-
+      
+    }
       // Clear Imput Fields
       $("#inputHomeTeamScore").val("");
       $("#inputAwayTeamScore").val("");
@@ -406,6 +426,7 @@ function logGameOutcome() {
 
     }
   }); // end ajax
+}
 }; // end log game outcome
 
 
