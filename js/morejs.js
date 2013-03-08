@@ -8,28 +8,29 @@ $('#myModal').on('shown', function () {
 
 //Begin validation courtesy of [jQuery Validation Plugin](http://bassistance.de/jquery-plugins/jquery-plugin-validation/) - Form validation made easy
 var validator = $("#signupForm").validate({
-       rules: {
+       rules    : {
         teamName: 'required',
-        mgrFirst : "required",
+        mgrFirst: "required",
         mgrLast : "required",
-        mgrPhone : {
-              required : true,
-              minlength : 12
+        mgrPhone: {
+            required : true,
+            minlength: 10,
+            maxlength: 10
           },
-        email : "required",
+        email   : "required",
         zip: {
-              required : true,
-              digits : true,
-              minlength : 5,
-              maxlength : 5
+            required : true,
+            digits   : true,
+            minlength: 5,
+            maxlength: 5
           },
         sponsor : "required",
         }, //end of rules
-       messages: {
-        mgrPhone : {
+       messages : {
+       mgrPhone : {
           minlength : "Make sure you entered a 10-digit number."
        },
-        zip : {
+       zip     : {
           minlength : "Make sure you entered a 5 digit zipcode.",
           maxlength : "Make sure you entered a 5 digit zipcode."
       }
